@@ -5,8 +5,8 @@ import java.util.UUID;
 import org.hov.model.Vendor;
 
 public interface VendorDAO {
-	public UUID addVendorDetails(Vendor vendor);
-	public boolean updateVendorDetails(Vendor vendor);
+	public boolean addVendor(Vendor vendor);
+	public boolean updateVendor(Vendor vendor);
+	public boolean deleteVendor(UUID vendorId);
 	public Vendor getVendorById(UUID vendorId);
-	public boolean deleteVendor(Vendor vendor);
 }

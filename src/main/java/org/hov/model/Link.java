@@ -12,8 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
 import org.hov.enums.LinkType;
@@ -24,30 +22,28 @@ public class Link {
 	@Id
 	@GeneratedValue
 	@Type(type = "uuid-char")
-	private UUID linkKey;
+	private UUID linkkey;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "linked_user")
 	private User user;
 
 	@Column(name = "link_name")
-	@NotNull
 	@Enumerated(EnumType.STRING)
 	private LinkType linkType;
 
 	@Column(name = "link_value")
-	@NotBlank(message = "SNSERR000001")											//Cannot Be Empty
 	private String linkValue;
 
 	@Column(name = "link_code")
-	@NotBlank(message = "SNSERR000001")											//Cannot Be Empty
-	private String linkCode;
-	
-	@NotNull
-	private boolean expired;
+	private String verificationCode;
 
-	public UUID getLinkKey() {
-		return linkKey;
+	public UUID getLinkkey() {
+		return linkkey;
+	}
+
+	public void setLinkkey(UUID linkkey) {
+		this.linkkey = linkkey;
 	}
 
 	public User getUser() {
@@ -74,19 +70,11 @@ public class Link {
 		this.linkValue = linkValue;
 	}
 
-	public String getLinkCode() {
-		return linkCode;
+	public String getVerificationCode() {
+		return verificationCode;
 	}
 
-	public void setLinkCode(String linkCode) {
-		this.linkCode = linkCode;
-	}
-
-	public boolean isExpired() {
-		return expired;
-	}
-
-	public void setExpired(boolean expired) {
-		this.expired = expired;
+	public void setVerificationCode(String verificationCode) {
+		this.verificationCode = verificationCode;
 	}
 }

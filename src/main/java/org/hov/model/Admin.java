@@ -8,8 +8,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.UniqueElements;
@@ -21,11 +19,9 @@ public class Admin
 {
 	@Id						
 	@UniqueElements(message = "SNSERR000004")									//Already Exists
-	@NotNull(message = "SNSERR000001")											//Cannot Be Empty
-	private String adminId;														//Employee Id,Not auto generated
+	private String adminid;														//Employee Id,Not auto generated
 	
 	@Column(unique = true)
-	@NotNull(message = "SNSERR000001")											//Cannot Be Empty
 	@Pattern(regexp = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)"	  //As per RFC 5322 Standards
 			        + "*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f"
 			        + "]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0"
@@ -38,36 +34,29 @@ public class Admin
 	
 	@Column(name = "admin_type")
 	@Enumerated(EnumType.STRING)
-	@NotNull(message = "SNSERR000001")											//Cannot Be Empty
 	private AdminType adminType;
 	
-	@NotBlank(message = "SNSERR000001")											//Cannot Be Empty
-	//@Pattern(regexp = "", 
-	//		   message = "SNSERR000003")										//Invalid Password Format
 	private String password;
 
 	@Column(name = "first_name")
-	@NotBlank(message = "SNSERR000001")											//Cannot Be Empty
 	private String firstName;
 
 	@Column(name = "last_name")
-	@NotBlank(message = "SNSERR000001")											//Cannot Be Empty
 	private String lastName;
 
-	@Column(name = "avatar_url")
-	private URL avatar;
+	@Column(name = "picture_url")
+	private URL picture;
 	
-	@NotNull
 	private boolean suspended;
 
-	public URL getAvatarURL() {
-		return avatar;
-	}
-
 	public String getAdminId() {
-		return adminId;
+		return adminid;
 	}
 
+	public void setAdminId(String id) {
+		this.adminid = id;
+	}
+	
 	public String getEmail() {
 		return email;
 	}
@@ -116,11 +105,11 @@ public class Admin
 		this.password = password;
 	}
 
-	public void setAvatarURL(URL avatarURL) {
-		this.avatar = avatarURL;
+	public URL getPicture() {
+		return picture;
 	}
 
-	public void setAdminId(String adminId) {
-		this.adminId = adminId;
+	public void setPicture(URL picture) {
+		this.picture = picture;
 	}
 }

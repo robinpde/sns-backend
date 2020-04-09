@@ -10,8 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
 
@@ -21,44 +19,36 @@ public class Address {
 	@Id
 	@GeneratedValue
 	@Type(type = "uuid-char")
-	private UUID addressId;
+	private UUID addressid;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "linked_user")
 	private User user;
 	
 	@Column(name = "address_name")
-	@NotBlank(message = "SNSERR000001")											//Cannot Be Empty
 	private String addressName;
 
 	@Column(name = "address_text")
-	@NotBlank(message = "SNSERR000001")											//Cannot Be Empty
 	private String addressText;
 	
 	@Column(name = "landmark_text")
 	private String landmark;
 	
-	@NotBlank(message = "SNSERR000001")											//Cannot Be Empty
 	private String street;
 
-	@NotBlank(message = "SNSERR000001")											//Cannot Be Empty
 	private String city;
 
-	@NotBlank(message = "SNSERR000001")											//Cannot Be Empty
 	private String state;
 
-	@NotBlank(message = "SNSERR000001")											//Cannot Be Empty
 	private String country;
 
 	@Column(name = "postal_number")
-	@NotBlank(message = "SNSERR000001")											//Cannot Be Empty
 	private String pin;
 
 	@Column(name = "phone_number")
 	private String phone;
 
 	@Column(name = "default_address")
-	@NotNull
 	private boolean defaultAddress;
 	
 	/* SELLER SPECIFIC COLUMNS */
@@ -71,8 +61,12 @@ public class Address {
 	@Column(name = "coordinates_y")
 	private long coordinatesY;
 	
-	public UUID getAddressId() {
-		return addressId;
+	public UUID getAddressid() {
+		return addressid;
+	}
+
+	public void setAddressid(UUID addressid) {
+		this.addressid = addressid;
 	}
 
 	public User getUser() {

@@ -4,9 +4,7 @@ import java.util.UUID;
 
 import javax.persistence.Query;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hov.dao.RatingDAO;
 import org.hov.model.Rating;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,77 +18,54 @@ public class RatingDAOImpl implements RatingDAO{
 	SessionFactory sessionFactory;
 	
 	@Override
-	public UUID addRating(Rating rating) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = null;
+	public boolean addRating(Rating rating) {
 		try{
-			tx = session.beginTransaction();
-			session.persist(rating);
-			tx.commit();
-			return rating.getRatingId();
+			sessionFactory.getCurrentSession().persist(rating);
+			return true;
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			tx.rollback();
-			return null;
-		}
-		finally{
-			session.close();
+			return false;
 		}
 	}
 
 	@Override
 	public boolean updateRating(Rating rating) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = null;
 		try{
-			tx = session.beginTransaction();
-			session.update(rating);
-			tx.commit();
+			sessionFactory.getCurrentSession().update(rating);
 			return true;
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			tx.rollback();
 			return false;
 		}
-		finally {
-			session.close();
+	}
+
+	@Override
+	public boolean deleteRating(UUID ratingId) {
+		try{
+			Rating rating = new Rating();
+			rating.setRatingid(ratingId);
+			sessionFactory.getCurrentSession().delete(rating);
+			return true;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return false;
 		}
 	}
 
 	@Override
 	public Rating getRatingById(UUID ratingId) {
 		try {
-			Session session = sessionFactory.getCurrentSession();
-			Query query=session.createQuery("from org.hov.model.Rating " +
-											"where ratingId = :id");
+			Query query = sessionFactory.getCurrentSession().createQuery(
+					      "from org.hov.model.Rating where ratingid = :id");
 			query.setParameter("id", ratingId);
-			return (Rating) query.getResultList().get(0);
+			return (Rating)query.getResultList().get(0);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 			return null;
-		}
-	}
-
-	@Override
-	public boolean deleteRatingById(Rating rating) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = null;
-		try{
-			tx = session.beginTransaction();
-			session.delete(rating);
-			tx.commit();
-			return true;
-		}
-		catch(Exception e){
-			e.printStackTrace();
-			tx.rollback();
-			return false;
-		}
-		finally {
-			session.close();
 		}
 	}
 }

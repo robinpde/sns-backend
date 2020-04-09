@@ -6,8 +6,9 @@ import java.util.UUID;
 import org.hov.model.SubCategory;
 
 public interface SubCategoryService {
-	public boolean addCategory(SubCategory subCategory);
-	public boolean updateCategory(SubCategory subCategory);
-	public SubCategory getCategoryById(UUID subCategoryId);
-	public List<SubCategory> getAllCategories();
+	public boolean addSubCategory(SubCategory subCategory);
+	public boolean updateSubCategory(SubCategory subCategory);
+	public boolean removeSubCategory(UUID subCategoryId);
+	public SubCategory getSubCategoryById(UUID subCategoryId);
+	public List<SubCategory> getSubCategoryList();
 }

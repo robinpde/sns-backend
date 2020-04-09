@@ -8,8 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
 
@@ -19,29 +17,28 @@ public class Brand {
 	@Id
 	@GeneratedValue
 	@Type(type = "uuid-char")
-	private UUID brandId;
+	private UUID brandid;
 	
 	@Column(name = "brand_name")
-	@NotBlank(message = "SNSERR000001")											//Cannot Be Empty
 	private String brandName;
 
 	@Column(name = "brand_tag_line")
-	@NotBlank(message = "SNSERR000001")											//Cannot Be Empty
 	private String brandTagline;
 
 	@Column(name = "brand_description")
-	@NotBlank(message = "SNSERR000001")											//Cannot Be Empty
 	private String brandDescription;
 
 	@Column(name = "brand_logo_url")
-	@NotBlank(message = "SNSERR000001")											//Cannot Be Empty
 	private URL brandLogo;
 
-	@NotNull
-	private boolean visible;
+	private boolean active;
 
-	public UUID getBrandId() {
-		return brandId;
+	public UUID getBrandid() {
+		return brandid;
+	}
+
+	public void setBrandid(UUID brandid) {
+		this.brandid = brandid;
 	}
 
 	public URL getBrandLogo() {
@@ -84,11 +81,11 @@ public class Brand {
 		this.brandLogo = brandLogoURL;
 	}
 
-	public boolean isVisible() {
-		return visible;
+	public boolean isActive() {
+		return active;
 	}
 
-	public void setVisible(boolean visible) {
-		this.visible = visible;
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 }

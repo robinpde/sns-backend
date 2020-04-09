@@ -1,6 +1,5 @@
 package org.hov.serviceimpl;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.hov.dao.OrderDAO;
@@ -16,26 +15,21 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public boolean addOrder(Order order) {
-		if(orderDAO.addOrder(order) != null){
-			return true;
-		}
-		else {
-			return false;
-		}
+		return orderDAO.addOrder(order);
 	}
 
 	@Override
 	public boolean updateOrder(Order order) {
 		return orderDAO.updateOrder(order);
 	}
+	
+	@Override
+	public boolean removeOrder(UUID orderId) {
+		return orderDAO.deleteOrder(orderId);
+	}
 
 	@Override
 	public Order getOrderById(UUID OrderId) {
 		return orderDAO.getOrderById(OrderId);
-	}
-
-	@Override
-	public List<Order> getOrderListByUser(UUID userId) {
-		return orderDAO.getOrderListByUser(userId);
 	}
 }

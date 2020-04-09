@@ -5,11 +5,8 @@ import java.util.UUID;
 
 import javax.persistence.Query;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hov.dao.UserDAO;
-import org.hov.model.Admin;
 import org.hov.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -22,53 +19,50 @@ public class UserDAOImpl implements UserDAO{
 	SessionFactory sessionFactory;
 	
 	@Override
-	public UUID addUser(User user) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = null;
+	public boolean addUser(User user) {
 		try{
-			tx = session.beginTransaction();
-			session.persist(user);
-			tx.commit();
-			return user.getUserId();
+			sessionFactory.getCurrentSession().persist(user);
+			return true;
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			tx.rollback();
-			return null;
-		}
-		finally{
-			session.close();
+			return false;
 		}
 	}
 
 	@Override
 	public boolean updateUser(User user) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = null;
 		try{
-			tx = session.beginTransaction();
-			session.update(user);
-			tx.commit();
+			sessionFactory.getCurrentSession().update(user);
 			return true;
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			tx.rollback();
 			return false;
 		}
-		finally {
-			session.close();
+	}
+	
+	@Override
+	public boolean deleteUser(UUID userId) {
+		try{
+			User user = new User();
+			user.setUserid(userId);
+			sessionFactory.getCurrentSession().delete(user);
+			return true;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return false;
 		}
 	}
 
 	@Override
 	public User getUserById(UUID userId) {
 		try {
-			Session session = sessionFactory.getCurrentSession();
-			Query query=session.createQuery("from org.hov.model.User " +
-											"where userId = :id");
+			Query query = sessionFactory.getCurrentSession().createQuery(
+						  "from org.hov.model.User where userid = :id");
 			query.setParameter("id", userId);
-			return (User) query.getResultList().get(0);
+			return (User)query.getResultList().get(0);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -79,8 +73,8 @@ public class UserDAOImpl implements UserDAO{
 	@Override
 	public List<User> getAllUsers() {
 		try {
-			Session session = sessionFactory.getCurrentSession();
-			return session.createQuery("from org.hov.model.User").list();
+			return sessionFactory.getCurrentSession().createQuery(
+				   "from org.hov.model.User").list();
 		}
 		catch(Exception e) {
 			e.printStackTrace();

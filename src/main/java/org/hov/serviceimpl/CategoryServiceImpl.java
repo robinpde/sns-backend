@@ -16,19 +16,19 @@ public class CategoryServiceImpl implements CategoryService{
 
 	@Override
 	public boolean addCategory(Category category) {
-		if(categoryDAO.addCategory(category) != null){
-			return true;
-		}
-		else {
-			return false;
-		}
+		return categoryDAO.addCategory(category);
 	}
 
 	@Override
 	public boolean updateCategory(Category category) {
 		return categoryDAO.updateCategory(category);
 	}
-
+	
+	@Override
+	public boolean removeCategory(UUID categoryId) {
+		return categoryDAO.deleteCategory(categoryId);
+	}
+	
 	@Override
 	public Category getCategoryById(UUID categoryId) {
 		return categoryDAO.getCategoryById(categoryId);

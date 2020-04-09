@@ -14,12 +14,22 @@ public class VendorServiceImpl implements VendorService{
 	VendorDAO vendorDAO;
 	
 	@Override
-	public UUID addVendorDetails(Vendor vendor) {
-		return vendorDAO.addVendorDetails(vendor);
+	public boolean addVendor(Vendor vendor) {
+		return vendorDAO.addVendor(vendor);
 	}
 
 	@Override
-	public boolean updateVendorDetails(Vendor vendor) {
-		return vendorDAO.updateVendorDetails(vendor);
+	public boolean updateVendor(Vendor vendor) {
+		return vendorDAO.updateVendor(vendor);
+	}
+	
+	@Override
+	public boolean removeVendor(UUID vendorId) {
+		return vendorDAO.deleteVendor(vendorId);
+	}
+
+	@Override
+	public Vendor getVendorById(UUID vendorId) {
+		return vendorDAO.getVendorById(vendorId);
 	}
 }

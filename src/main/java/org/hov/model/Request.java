@@ -10,8 +10,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Type;
 import org.hov.enums.RequestStatus;
 import org.hov.enums.RequestType;
 
@@ -20,15 +20,14 @@ import org.hov.enums.RequestType;
 public class Request {
 	@Id
 	@GeneratedValue
-	private UUID requestId;
+	@Type(type = "uuid-char")
+	private UUID requestid;
 	
 	@Column(name = "request_type")
-	@NotNull
 	@Enumerated(EnumType.ORDINAL)
 	private RequestType requestType; 
 
 	@Column(name = "request_status")
-	@NotNull
 	@Enumerated(EnumType.ORDINAL)
 	private RequestStatus requestStatus;
 	
@@ -45,8 +44,12 @@ public class Request {
 	@Column(name = "request_image_url")
 	private URL requestImage;
 	
-	public UUID getRequestId() {
-		return requestId;
+	public UUID getRequestid() {
+		return requestid;
+	}
+
+	public void setRequestid(UUID requestid) {
+		this.requestid = requestid;
 	}
 
 	public RequestType getRequestType() {

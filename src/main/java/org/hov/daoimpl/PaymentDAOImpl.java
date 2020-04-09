@@ -4,9 +4,7 @@ import java.util.UUID;
 
 import javax.persistence.Query;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hov.dao.PaymentDAO;
 import org.hov.model.Payment;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,53 +18,50 @@ public class PaymentDAOImpl implements PaymentDAO{
 	SessionFactory sessionFactory;
 
 	@Override
-	public UUID createPayment(Payment payment) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = null;
+	public boolean createPayment(Payment payment) {
 		try{
-			tx = session.beginTransaction();
-			session.persist(payment);
-			tx.commit();
-			return payment.getPaymentKey();
+			sessionFactory.getCurrentSession().persist(payment);
+			return true;
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			tx.rollback();
-			return null;
-		}
-		finally{
-			session.close();
+			return false;
 		}
 	}
 
 	@Override
 	public boolean updatePayment(Payment payment) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = null;
 		try{
-			tx = session.beginTransaction();
-			session.update(payment);
-			tx.commit();
+			sessionFactory.getCurrentSession().update(payment);
 			return true;
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			tx.rollback();
 			return false;
 		}
-		finally {
-			session.close();
+	}
+	
+	@Override
+	public boolean deletePayment(UUID paymentId) {
+		try{
+			Payment payment = new Payment();
+			payment.setPaymentid(paymentId);
+			sessionFactory.getCurrentSession().delete(payment);
+			return true;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return false;
 		}
 	}
 
 	@Override
 	public Payment getPaymentById(UUID paymentId) {
 		try {
-			Session session = sessionFactory.getCurrentSession();
-			Query query=session.createQuery("from org.hov.model.Payment " +
-											"where paymentKey = :id");
+			Query query = sessionFactory.getCurrentSession().createQuery(
+						  "from org.hov.model.Payment where paymentid = :id");
 			query.setParameter("id", paymentId);
-			return (Payment) query.getResultList().get(0);
+			return (Payment)query.getResultList().get(0);
 		}
 		catch(Exception e) {
 			e.printStackTrace();

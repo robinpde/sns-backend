@@ -4,9 +4,7 @@ import java.util.List;
 
 import javax.persistence.Query;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hov.dao.AdminDAO;
 import org.hov.model.Admin;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,52 +19,49 @@ public class AdminDAOImpl implements AdminDAO{
 		
 	@Override
 	public boolean addAdmin(Admin admin) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = null;
-		try{
-			tx = session.beginTransaction();
-			session.persist(admin);
-			tx.commit();
+		try {
+			sessionFactory.getCurrentSession().persist(admin);
 			return true;
 		}
-		catch(Exception e){
+		catch(Exception e) {
 			e.printStackTrace();
-			tx.rollback();
 			return false;
-		}
-		finally{
-			session.close();
 		}
 	}
 
 	@Override
 	public boolean updateAdmin(Admin admin) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = null;
-		try{
-			tx = session.beginTransaction();
-			session.update(admin);
-			tx.commit();
+		try {
+			sessionFactory.getCurrentSession().update(admin);
 			return true;
 		}
-		catch(Exception e){
+		catch(Exception e) {
 			e.printStackTrace();
-			tx.rollback();
 			return false;
 		}
-		finally {
-			session.close();
+	}
+	
+	@Override
+	public boolean deleteAdmin(String adminId) {
+		try {
+			Admin admin = new Admin();
+			admin.setAdminId(adminId);
+			sessionFactory.getCurrentSession().delete(admin);
+			return true;
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return false;
 		}
 	}
-
+	
 	@Override
 	public Admin getAdminbyId(String adminId) {
 		try {
-			Session session = sessionFactory.getCurrentSession();
-			Query query=session.createQuery("from org.hov.model.Admin " +
-											"where adminId = :id");
+			Query query= sessionFactory.getCurrentSession().createQuery(
+							"from org.hov.model.Admin where adminid = :id");
 			query.setParameter("id", adminId);
-			return (Admin) query.getResultList().get(0);
+			return (Admin)query.getResultList().get(0);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -77,8 +72,8 @@ public class AdminDAOImpl implements AdminDAO{
 	@Override
 	public List<Admin> getAllAdmins() {
 		try {
-			Session session = sessionFactory.getCurrentSession();
-			return session.createQuery("from org.hov.model.Admin").list();
+			return sessionFactory.getCurrentSession()
+				   .createQuery("from org.hov.model.Admin").list();
 		}
 		catch(Exception e) {
 			e.printStackTrace();

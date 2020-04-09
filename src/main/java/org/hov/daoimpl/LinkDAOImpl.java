@@ -4,9 +4,7 @@ import java.util.UUID;
 
 import javax.persistence.Query;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hov.dao.LinkDAO;
 import org.hov.model.Link;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,52 +19,49 @@ public class LinkDAOImpl implements LinkDAO{
 	
 	@Override
 	public UUID createLink(Link link) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = null;
-		try{
-			tx = session.beginTransaction();
-			session.persist(link);
-			tx.commit();
-			return link.getLinkKey();
+		try {
+			sessionFactory.getCurrentSession().persist(link);
+			return link.getLinkkey();
 		}
-		catch(Exception e){
+		catch(Exception e) {
 			e.printStackTrace();
-			tx.rollback();
 			return null;
-		}
-		finally{
-			session.close();
 		}
 	}
 
 	@Override
 	public boolean updateLink(Link link) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = null;
-		try{
-			tx = session.beginTransaction();
-			session.update(link);
-			tx.commit();
+		try {
+			sessionFactory.getCurrentSession().update(link);
 			return true;
 		}
-		catch(Exception e){
+		catch(Exception e) {
 			e.printStackTrace();
-			tx.rollback();
 			return false;
 		}
-		finally {
-			session.close();
+	}
+	
+	@Override
+	public boolean removeLink(UUID linkId) {
+		try {
+			Link link = new Link();
+			link.setLinkkey(linkId);
+			sessionFactory.getCurrentSession().delete(link);
+			return true;
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return false;
 		}
 	}
 
 	@Override
 	public Link getLinkById(UUID linkId) {
 		try {
-			Session session = sessionFactory.getCurrentSession();
-			Query query=session.createQuery("from org.hov.model.Link " +
-											"where linkKey = :id");
+			Query query = sessionFactory.getCurrentSession().createQuery(
+					      "from org.hov.model.Link where linkkey = :id");
 			query.setParameter("id", linkId);
-			return (Link) query.getResultList().get(0);
+			return (Link)query.getResultList().get(0);
 		}
 		catch(Exception e) {
 			e.printStackTrace();

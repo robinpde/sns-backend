@@ -22,7 +22,7 @@ public class Promotion {
 	@Id
 	@GeneratedValue
 	@Type(type = "uuid-char")
-	private UUID promoId;
+	private UUID promoid;
 	
 	//@Column
 	//@NotNull
@@ -53,9 +53,13 @@ public class Promotion {
 	
 	@Column(name = "read_count")
 	private long readCount;
-	
-	public UUID getPromoId() {
-		return promoId;
+
+	public UUID getPromoid() {
+		return promoid;
+	}
+
+	public void setPromoid(UUID promoid) {
+		this.promoid = promoid;
 	}
 
 	public PromoType getPromoType() {

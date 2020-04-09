@@ -9,7 +9,7 @@ public interface AddressService {
 	public boolean addAddress(Address address);
 	public boolean updateAddress(Address address);
 	public Address getAddressById(UUID addressId);
-	public List<Address> getAddressByUser(UUID userId);
+	public List<Address> getAddressListByUser(UUID userId);
 	public boolean makeAddressDefault(UUID userId, UUID addressId);
-	public boolean updateWarehouseLocation(UUID addressId, long locX,  long locY);
+	public boolean updateGeoLocation(UUID addressId, long locX,  long locY);
 }

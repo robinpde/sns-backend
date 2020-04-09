@@ -5,11 +5,8 @@ import java.util.UUID;
 
 import javax.persistence.Query;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hov.dao.ItemDAO;
-import org.hov.model.Admin;
 import org.hov.model.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -22,53 +19,50 @@ public class ItemDAOImpl implements ItemDAO{
 	SessionFactory sessionFactory;
 
 	@Override
-	public UUID addItem(Item item) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = null;
+	public boolean addItem(Item item) {
 		try{
-			tx = session.beginTransaction();
-			session.persist(item);
-			tx.commit();
-			return item.getItemId();
+			sessionFactory.getCurrentSession().persist(item);
+			return true;
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			tx.rollback();
-			return null;
-		}
-		finally{
-			session.close();
+			return false;
 		}
 	}
 
 	@Override
 	public boolean updateItem(Item item) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = null;
 		try{
-			tx = session.beginTransaction();
-			session.update(item);
-			tx.commit();
+			sessionFactory.getCurrentSession().update(item);
 			return true;
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			tx.rollback();
 			return false;
 		}
-		finally {
-			session.close();
+	}
+	
+	@Override
+	public boolean deleteItem(UUID itemId) {
+		try{
+			Item item = new Item();
+			item.setItemid(itemId);
+			sessionFactory.getCurrentSession().delete(item);
+			return true;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return false;
 		}
 	}
 
 	@Override
 	public Item getItemById(UUID itemId) {
 		try {
-			Session session = sessionFactory.getCurrentSession();
-			Query query=session.createQuery("from org.hov.model.Item " +
-											"where itemId = :id");
+			Query query = sessionFactory.getCurrentSession().createQuery(
+					  	  "from org.hov.model.Item where itemid = :id");
 			query.setParameter("id", itemId);
-			return (Item) query.getResultList().get(0);
+			return (Item)query.getResultList().get(0);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -79,20 +73,8 @@ public class ItemDAOImpl implements ItemDAO{
 	@Override
 	public List<Item> getItemList() {
 		try {
-			Session session = sessionFactory.getCurrentSession();
-			return session.createQuery("from org.hov.model.Item").list();
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	@Override
-	public List<Item> getItemListFullDetails() {
-		try {
-			Session session = sessionFactory.getCurrentSession();
-			return session.createQuery("from org.hov.model.Item").list();
+			return sessionFactory.getCurrentSession().createQuery(
+				   "from org.hov.model.Item").list();
 		}
 		catch(Exception e) {
 			e.printStackTrace();

@@ -3,7 +3,10 @@ package org.hov.test;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
 import org.hov.config.AppConfig;
+import org.hov.dao.AdminDAO;
 import org.hov.enums.AdminType;
 import org.hov.model.Admin;
 import org.hov.service.AdminService;
@@ -20,16 +23,19 @@ public class AdminTestCases {
 	@Autowired
 	AdminService adminService;
 	
+	@Autowired
+	AdminDAO adminDAO;
+	
 	@Test
 	@Ignore
 	public void addAdmin1() {
 		Admin admin = new Admin();
-		admin.setAdminId("123456");
-		admin.setEmail("mail1.robin@email.com");
-		admin.setFirstName("Admin1 First Name");
-		admin.setLastName("Admin1 Last Name");
-		admin.setSuspended(true);
-		admin.setAdminType(AdminType.DELIVERY_ADMIN);
+		admin.setAdminId("333777");
+		admin.setEmail("mail4u@email.com");
+		admin.setFirstName("Admin5 First Name");
+		admin.setLastName("Admin5 Last Name");
+		admin.setSuspended(false);
+		admin.setAdminType(AdminType.FUND_ADMIN);
 		
 		assertTrue(adminService.addAdmin(admin));
 	}
@@ -37,34 +43,40 @@ public class AdminTestCases {
 	@Test
 	@Ignore
 	public void updateAdmin() {
-		Admin admin = adminService.getAdminById("234567");
-		admin.setPassword("pass");
+		Admin admin = adminService.getAdminById("126677");
+		admin.setLastName("Big Smoke");
 		
 		assertTrue(adminService.updateAdmin(admin));
 	}
 	
 	@Test
 	@Ignore
+	public void deleteAdmin(){
+		assertTrue(adminDAO.deleteAdmin("126677"));
+	}
+	
+	@Test
+	@Ignore
 	public void getAdminbyId() {
-		try{
-			Admin admin = adminService.getAdminById("234567");
-			System.out.println("Admin Name: "+ admin.getFirstName());
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-		assertNotNull(adminService.getAdminById("234567"));
+		Admin admin = adminService.getAdminById("333555");
+		System.out.println("Admin Name: "+ admin.getFirstName());
+		
+		assertNotNull(adminService.getAdminById("333555"));
 	}
 	
 	@Test
 	@Ignore
 	public void getAllAdmins() {
-		assertNotNull(adminService.getAdminById("234567"));
+		List<Admin> adminList = adminService.getAllAdmins();
+		for(Admin a:adminList) {
+			System.out.println("Admin Name: "+ a.getFirstName());
+		}
+		assertTrue(true);
 	}
 	
 	@Test
 	@Ignore
 	public void toggleSuspend() {
-		assertTrue(adminService.toggleSuspend("234567"));
+		assertTrue(adminService.toggleSuspend("333555"));
 	}
 }

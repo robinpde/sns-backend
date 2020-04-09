@@ -5,7 +5,8 @@ import java.util.UUID;
 import org.hov.model.Rating;
 
 public interface RatingService {
-	public UUID addRating(Rating rating);
+	public boolean addRating(Rating rating);
 	public boolean updateRating(Rating rating);
+	public boolean removeRating(UUID ratingId);
 	public Rating getRatingById(UUID ratingId);
 }

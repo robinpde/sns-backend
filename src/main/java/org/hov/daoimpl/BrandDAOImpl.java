@@ -1,12 +1,11 @@
 package org.hov.daoimpl;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Query;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hov.dao.BrandDAO;
 import org.hov.model.Brand;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,57 +19,60 @@ public class BrandDAOImpl implements BrandDAO{
 	SessionFactory sessionFactory;
 
 	@Override
-	public UUID addBrand(Brand brand) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = null;
+	public boolean addBrand(Brand brand) {
 		try{
-			tx = session.beginTransaction();
-			session.persist(brand);
-			tx.commit();
-			return brand.getBrandId();
+			sessionFactory.getCurrentSession().persist(brand);
+			return true;
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			tx.rollback();
-			return null;
-		}
-		finally{
-			session.close();
+			return false;
 		}
 	}
 
 	@Override
 	public boolean updateBrand(Brand brand) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = null;
 		try{
-			tx = session.beginTransaction();
-			session.update(brand);
-			tx.commit();
+			sessionFactory.getCurrentSession().update(brand);
 			return true;
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			tx.rollback();
 			return false;
-		}
-		finally {
-			session.close();
 		}
 	}
 
 	@Override
+	public boolean deleteBrand(UUID brandId) {
+		try{
+			Brand brand = new Brand();
+			brand.setBrandid(brandId);
+			sessionFactory.getCurrentSession().delete(brand);
+			return true;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	@Override
 	public Brand getBrandById(UUID brandId) {
 		try {
-			Session session = sessionFactory.getCurrentSession();
-			Query query=session.createQuery("from org.hov.model.Brand " +
-											"where adminId = :id");
+			Query query = sessionFactory.getCurrentSession().createQuery(
+						  "from org.hov.model.Brand where brandid = :id");
 			query.setParameter("id", brandId);
-			return (Brand)query.getResultList();
+			return (Brand)query.getResultList().get(0);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	@Override
+	public List<Brand> getAllBrands() {
+		return sessionFactory.getCurrentSession().createQuery(
+			   "from org.hov.model.Brand").list();
 	}
 }

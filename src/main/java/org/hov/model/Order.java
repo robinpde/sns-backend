@@ -13,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
@@ -26,7 +25,7 @@ public class Order {
 	@Id
 	@GeneratedValue
 	@Type(type = "uuid-char")
-	private UUID orderId;
+	private UUID orderid;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "linked_user")
@@ -40,7 +39,6 @@ public class Order {
 	private int quantity;
 
 	@Column(name = "order_status")
-	@NotNull
 	@Enumerated(EnumType.ORDINAL)
 	private OrderStatus orderStatus;
 
@@ -53,7 +51,19 @@ public class Order {
 	private Date updatedTime;
 
 	public UUID getOrderId() {
-		return orderId;
+		return orderid;
+	}
+
+	public void setOrderId(UUID orderId) {
+		this.orderid = orderId;
+	}
+
+	public OrderStatus getOrderStatus() {
+		return orderStatus;
+	}
+
+	public void setOrderStatus(OrderStatus orderStatus) {
+		this.orderStatus = orderStatus;
 	}
 
 	public User getUser() {

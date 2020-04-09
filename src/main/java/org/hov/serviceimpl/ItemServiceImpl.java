@@ -16,12 +16,7 @@ public class ItemServiceImpl implements ItemService{
 	
 	@Override
 	public boolean addItem(Item item) {
-		if(itemDAO.addItem(item) != null){
-			return true;
-		}
-		else {
-			return false;
-		}
+		return itemDAO.addItem(item);
 	}
 
 	@Override
@@ -37,10 +32,5 @@ public class ItemServiceImpl implements ItemService{
 	@Override
 	public List<Item> getItemList() {
 		return itemDAO.getItemList();
-	}
-
-	@Override
-	public List<Item> getItemListFullDetails() {
-		return itemDAO.getItemListFullDetails();
 	}
 }

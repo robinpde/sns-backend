@@ -18,9 +18,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
 import org.hov.enums.Gender;
@@ -33,61 +30,48 @@ public class User {
 	@Id
 	@GeneratedValue
 	@Type(type = "uuid-char")
-	private UUID userId;
+	private UUID userid;
 	
 	@Column
 	private String email;
 
 	@Column(name = "email_veriified")
-	@NotNull
 	private boolean emailVerified;
 
-	@NotBlank(message = "SNSERR000001")											//Cannot Be Empty
 	private String phone;
 
 	@Column(name = "phone_veriified")
-	@NotNull
 	private boolean phoneVerified;
 
-	@NotBlank(message = "SNSERR000001")											//Cannot Be Empty
 	private String password;
 
 	@Column(name = "first_name")
-	@NotBlank(message = "SNSERR000001")											//Cannot Be Empty
 	private String firstName;
 
 	@Column(name = "last_name")
-	@NotBlank(message = "SNSERR000001")											//Cannot Be Empty
 	private String lastName;
 
 	@Column(name = "date_of_birth")
-	@NotBlank(message = "SNSERR000001")											//Cannot Be Empty
 	private Date dob;
 	
 	@Column(name = "user_picture_url")
 	private URL userPicture;
 	
-	@NotNull
 	@Enumerated(EnumType.ORDINAL)
 	private Gender gender;
 	
-	@NotNull
 	@Enumerated(EnumType.ORDINAL)
 	private UserType userType;
 
 	@Column(name = "dark_mode")
-	@NotNull
 	private boolean darkMode;
 
 	@Column(name = "silent_mode")
-	@NotNull
 	private boolean silentMode;
 
 	@Column(name = "email_alert")
-	@NotNull
 	private boolean emailAlert;
 
-	@NotEmpty
 	@Enumerated(EnumType.ORDINAL)
 	private Locales localization;
 
@@ -106,11 +90,14 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Order> orderList = new ArrayList<>();
 	
-	@NotNull
 	private boolean active;
 
-	public UUID getUserId() {
-		return userId;
+	public UUID getUserid() {
+		return userid;
+	}
+
+	public void setUserid(UUID userid) {
+		this.userid = userid;
 	}
 
 	public String getEmail() {

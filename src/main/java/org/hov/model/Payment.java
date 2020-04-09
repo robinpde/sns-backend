@@ -9,9 +9,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Type;
 import org.hov.enums.PaymentMode;
 import org.hov.enums.PaymentStatus;
 
@@ -20,15 +19,14 @@ import org.hov.enums.PaymentStatus;
 public class Payment {
 	@Id
 	@GeneratedValue
-	private UUID paymentKey;
+	@Type(type = "uuid-char")
+	private UUID paymentid;
 	
 	@Column(name = "payment_mode")
-	@NotNull
 	@Enumerated(EnumType.ORDINAL)
 	private PaymentMode paymentMode;
 
 	@Column(name = "payment_portal")
-	@NotBlank(message = "SNSERR000001")											//Cannot Be Empty
 	private String PaymentPortal;
 
 	@Column(name = "payment_status")
@@ -38,10 +36,14 @@ public class Payment {
 	@Column(name = "payment_log")
 	private String paymentLog;
 	
-	public UUID getPaymentKey() {
-		return paymentKey;
+	public UUID getPaymentid() {
+		return paymentid;
 	}
-	
+
+	public void setPaymentid(UUID paymentid) {
+		this.paymentid = paymentid;
+	}
+
 	public PaymentMode getPaymentMode() {
 		return paymentMode;
 	}

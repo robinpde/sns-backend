@@ -8,6 +8,7 @@ import org.hov.model.User;
 public interface UserService {
 	public boolean addUser(User user);
 	public boolean updateUser(User user);
+	public boolean removeUser(UUID userId);
 	public boolean activateUser(UUID userId);
 	public boolean deactivateUser(UUID userId);
 	public User getUserById(UUID userId);

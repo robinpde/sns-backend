@@ -1,5 +1,6 @@
 package org.hov.serviceimpl;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.hov.dao.BrandDAO;
@@ -15,12 +16,7 @@ public class BrandServiceImpl implements BrandService{
 
 	@Override
 	public boolean addBrand(Brand brand) {
-		if(brandDAO.addBrand(brand) != null) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return brandDAO.addBrand(brand);
 	}
 
 	@Override
@@ -31,5 +27,15 @@ public class BrandServiceImpl implements BrandService{
 	@Override
 	public Brand getBrandById(UUID brandId) {
 		return brandDAO.getBrandById(brandId);
+	}
+
+	@Override
+	public List<Brand> getAllBrands() {
+		return brandDAO.getAllBrands();
+	}
+
+	@Override
+	public boolean removeBrand(UUID brandId) {
+		return brandDAO.deleteBrand(brandId);
 	}
 }

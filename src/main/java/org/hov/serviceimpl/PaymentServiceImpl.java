@@ -15,12 +15,7 @@ public class PaymentServiceImpl implements PaymentService{
 
 	@Override
 	public boolean createPayment(Payment payment) {
-		if(paymentDAO.createPayment(payment) != null){
-			return true;
-		}
-		else {
-			return false;
-		}
+		return paymentDAO.createPayment(payment);
 	}
 
 	@Override

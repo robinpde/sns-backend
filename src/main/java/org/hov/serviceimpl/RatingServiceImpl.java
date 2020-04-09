@@ -14,7 +14,7 @@ public class RatingServiceImpl implements RatingService{
 	RatingDAO ratingDAO;
 	
 	@Override
-	public UUID addRating(Rating rating) {
+	public boolean addRating(Rating rating) {
 		return ratingDAO.addRating(rating);
 	}
 
@@ -23,6 +23,11 @@ public class RatingServiceImpl implements RatingService{
 		return ratingDAO.updateRating(rating);
 	}
 
+	@Override
+	public boolean removeRating(UUID ratingId) {
+		return ratingDAO.deleteRating(ratingId);
+	}
+	
 	@Override
 	public Rating getRatingById(UUID ratingId) {
 		return ratingDAO.getRatingById(ratingId);

@@ -16,12 +16,7 @@ public class AddressServiceImpl implements AddressService{
 	
 	@Override
 	public boolean addAddress(Address address) {
-		if(addressDAO.addAddress(address) != null) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return addressDAO.addAddress(address);
 	}
 
 	@Override
@@ -35,21 +30,21 @@ public class AddressServiceImpl implements AddressService{
 	}
 
 	@Override
-	public List<Address> getAddressByUser(UUID userId) {
-		return addressDAO.getAddressByUser(userId);
+	public List<Address> getAddressListByUser(UUID userId) {
+		return addressDAO.getAddressListByUser(userId);
 	}
 
 	@Override
 	public boolean makeAddressDefault(UUID userId, UUID addressId) {
 		try {
-			Address defaultAddress = addressDAO.getDefaultAddress(userId);
+			Address defaultAddress = addressDAO.getUserDefaultAddress(userId);
 			Address currentAddress = addressDAO.getAddressById(addressId);
-			currentAddress.setDefaultAddress(true);
+
 			defaultAddress.setDefaultAddress(false);
+			currentAddress.setDefaultAddress(true);
 			
-			if (addressDAO.updateAddress(currentAddress) && 
-				addressDAO.updateAddress(defaultAddress)) {
-				return true;
+			if (addressDAO.updateAddress(defaultAddress)) {
+				return addressDAO.updateAddress(currentAddress);
 			}
 			else {
 				return false;
@@ -62,7 +57,7 @@ public class AddressServiceImpl implements AddressService{
 	}
 
 	@Override
-	public boolean updateWarehouseLocation(UUID addressId, long coordX, long coordY) {
+	public boolean updateGeoLocation(UUID addressId, long coordX, long coordY) {
 		try {
 			Address address = addressDAO.getAddressById(addressId);
 			address.setCoordinatesX(coordX);

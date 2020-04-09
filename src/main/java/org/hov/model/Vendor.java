@@ -15,10 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.Range;
+import org.hibernate.annotations.Type;
 import org.hov.enums.ShiftHours;
 import org.hov.enums.VendorType;
 
@@ -27,33 +25,27 @@ import org.hov.enums.VendorType;
 public class Vendor {
 	@Id
 	@GeneratedValue
-	private UUID vendorId;
+	@Type(type = "uuid-char")
+	private UUID vendorid;
 
 	@Column(name = "vendor_name")
-	@NotBlank(message = "SNSERR000001")											//Cannot Be Empty
 	private String vendorName;
 	
 	@Column(name = "vendor_email")
-	@NotBlank(message = "SNSERR000001")											//Cannot Be Empty
 	private String vendorEmail;
 	
 	@Column(name = "vendor_phone")
-	@NotBlank(message = "SNSERR000001")											//Cannot Be Empty
 	private String vendorPhone;
 
 	@Column(name = "vendor_type")
-	@NotNull
 	@Enumerated(EnumType.ORDINAL)
 	private VendorType vendorType;
 
 	@Column(name = "vendor_shift")
-	@NotNull
 	@Enumerated(EnumType.ORDINAL)
 	private ShiftHours vendorShift;
 
 	@Column(name = "response_days")
-	@NotBlank(message = "SNSERR000001")											//Cannot Be Empty
-	@Range(min=0, max=15, message = "SNSERR000006")								//Invalid Value
 	private int responseDays;
 	
 	@OneToOne(mappedBy = "vendor")
@@ -66,15 +58,17 @@ public class Vendor {
 			   orphanRemoval = true)
 	private List<Item> itemsList = new ArrayList<>();
 
-	@NotNull
 	private boolean blocked;
 
 	@Column(name = "blocked_reason")
-	@NotNull
 	private String blockedReason;
 
-	public UUID getVendorId() {
-		return vendorId;
+	public UUID getVendorid() {
+		return vendorid;
+	}
+
+	public void setVendorid(UUID vendorid) {
+		this.vendorid = vendorid;
 	}
 
 	public String getVendorName() {

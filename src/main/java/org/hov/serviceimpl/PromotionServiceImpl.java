@@ -15,17 +15,17 @@ public class PromotionServiceImpl implements PromotionService{
 
 	@Override
 	public boolean createPromotion(Promotion promotion) {
-		if(promotionDAO.createPromotion(promotion) != null) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return promotionDAO.addPromotion(promotion);
 	}
 
 	@Override
 	public boolean updatePromotion(Promotion promotion) {
 		return promotionDAO.updatePromotion(promotion);
+	}
+	
+	@Override
+	public boolean removePromotion(UUID promotionId) {
+		return promotionDAO.deletePromotion(promotionId);
 	}
 
 	@Override

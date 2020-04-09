@@ -5,7 +5,8 @@ import java.util.UUID;
 import org.hov.model.Payment;
 
 public interface PaymentDAO {
-	public UUID createPayment(Payment payment);
+	public boolean createPayment(Payment payment);
 	public boolean updatePayment(Payment payment);
+	public boolean deletePayment(UUID paymentId);
 	public Payment getPaymentById(UUID paymentId);
 }

@@ -5,66 +5,64 @@ import java.util.UUID;
 
 import javax.persistence.Query;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hov.dao.SubCategoryDAO;
-import org.hov.model.Admin;
 import org.hov.model.SubCategory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+@Repository("subCategoryDAO")
+@Transactional
 public class SubCategoryDAOImpl implements SubCategoryDAO{
 	@Autowired
 	SessionFactory sessionFactory;
 	
 	@Override
-	public UUID addCategory(SubCategory subCategory) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = null;
+	public boolean addSubCategory(SubCategory subCategory) {
 		try{
-			tx = session.beginTransaction();
-			session.persist(subCategory);
-			tx.commit();
-			return subCategory.getSubCategoryId();
-		}
-		catch(Exception e){
-			e.printStackTrace();
-			tx.rollback();
-			return null;
-		}
-		finally{
-			session.close();
-		}
-	}
-
-	@Override
-	public boolean updateCategory(SubCategory subCategory) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = null;
-		try{
-			tx = session.beginTransaction();
-			session.update(subCategory);
-			tx.commit();
+			sessionFactory.getCurrentSession().persist(subCategory);
 			return true;
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			tx.rollback();
 			return false;
-		}
-		finally {
-			session.close();
 		}
 	}
 
 	@Override
-	public SubCategory getCategoryById(UUID subCategoryId) {
+	public boolean updateSubCategory(SubCategory subCategory) {
+		try{
+			sessionFactory.getCurrentSession().update(subCategory);
+			return true;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public boolean deleteSubCategory(UUID subCategoryId) {
+		try{
+			SubCategory subCategory = new SubCategory();
+			subCategory.setSubcategoryid(subCategoryId);
+			sessionFactory.getCurrentSession().delete(subCategory);
+			return true;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	@Override
+	public SubCategory getSubCategoryById(UUID subCategoryId) {
 		try {
-			Session session = sessionFactory.getCurrentSession();
-			Query query=session.createQuery("from org.hov.model.SubCategory " +
-											"where subCategoryId = :id");
+			Query query = sessionFactory.getCurrentSession().createQuery(
+						  "from org.hov.model.SubCategory where subcategoryid = :id");
 			query.setParameter("id", subCategoryId);
-			return (SubCategory) query.getResultList().get(0);
+			return (SubCategory)query.getResultList().get(0);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -73,10 +71,10 @@ public class SubCategoryDAOImpl implements SubCategoryDAO{
 	}
 
 	@Override
-	public List<SubCategory> getAllCategories() {
+	public List<SubCategory> getSubCategoryList() {
 		try {
-			Session session = sessionFactory.getCurrentSession();
-			return session.createQuery("from org.hov.model.SubCategory").list();
+			return sessionFactory.getCurrentSession().createQuery(
+					"from org.hov.model.SubCategory").list();
 		}
 		catch(Exception e) {
 			e.printStackTrace();

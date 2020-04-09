@@ -4,11 +4,8 @@ import java.util.UUID;
 
 import javax.persistence.Query;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hov.dao.PromotionDAO;
-import org.hov.model.Admin;
 import org.hov.model.Promotion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,51 +18,48 @@ public class PromotionDAOImpl implements PromotionDAO{
 	SessionFactory sessionFactory;
 
 	@Override
-	public UUID createPromotion(Promotion promotion) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = null;
+	public boolean addPromotion(Promotion promotion) {
 		try{
-			tx = session.beginTransaction();
-			session.persist(promotion);
-			tx.commit();
-			return promotion.getPromoId();
+			sessionFactory.getCurrentSession().persist(promotion);
+			return true;
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			tx.rollback();
-			return null;
-		}
-		finally{
-			session.close();
+			return false;
 		}
 	}
 
 	@Override
 	public boolean updatePromotion(Promotion promotion) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = null;
 		try{
-			tx = session.beginTransaction();
-			session.update(promotion);
-			tx.commit();
+			sessionFactory.getCurrentSession().update(promotion);
 			return true;
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			tx.rollback();
 			return false;
 		}
-		finally{
-			session.close();
+	}
+	
+	@Override
+	public boolean deletePromotion(UUID promotionId) {
+		try{
+			Promotion promotion = new Promotion();
+			promotion.setPromoid(promotionId);
+			sessionFactory.getCurrentSession().delete(promotion);
+			return true;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return false;
 		}
 	}
 
 	@Override
 	public Promotion getPromotionById(UUID promotionId) {
 		try {
-			Session session = sessionFactory.getCurrentSession();
-			Query query=session.createQuery("from org.hov.model.Promotion " +
-											"where promoId = :id");
+			Query query = sessionFactory.getCurrentSession().createQuery(
+						  "from org.hov.model.Promotion where promoid = :id");
 			query.setParameter("id", promotionId);
 			return (Promotion) query.getResultList().get(0);
 		}

@@ -8,8 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
 
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Range;
 
 @Entity
@@ -17,7 +17,8 @@ import org.hibernate.validator.constraints.Range;
 public class Rating {
 	@Id
 	@GeneratedValue
-	private UUID ratingId;
+	@Type(type = "uuid-char")
+	private UUID ratingid;
 	
 	//@NotNull
 	//private Item item;
@@ -26,17 +27,20 @@ public class Rating {
 	//private User user;
 	
 	@Column
-	@NotBlank(message = "SNSERR000001")											//Cannot Be Empty
 	@Range(min = 1, max = 5, message = "SNSERR000006")							//Out of Range
 	private int value;
-	private String title;
-	private String comment;
+	private String summary;
+	private String text;
 	private URL image1;
 	private URL image2;
 	private URL image3;
-	
-	public UUID getRatingId() {
-		return ratingId;
+
+	public UUID getRatingid() {
+		return ratingid;
+	}
+
+	public void setRatingid(UUID ratingid) {
+		this.ratingid = ratingid;
 	}
 
 	public int getValue() {
@@ -47,22 +51,22 @@ public class Rating {
 		this.value = value;
 	}
 	
-	public String getTitle() {
-		return title;
+	public String getSummary() {
+		return summary;
 	}
-	
-	public void setTitle(String title) {
-		this.title = title;
+
+	public void setSummary(String summary) {
+		this.summary = summary;
 	}
-	
-	public String getComment() {
-		return comment;
+
+	public String getText() {
+		return text;
 	}
-	
-	public void setComment(String comment) {
-		this.comment = comment;
+
+	public void setText(String text) {
+		this.text = text;
 	}
-	
+
 	public URL getImage1() {
 		return image1;
 	}

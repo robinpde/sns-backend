@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
 
@@ -18,21 +16,22 @@ public class Category {
 	@Id
 	@GeneratedValue
 	@Type(type = "uuid-char")
-	private UUID categoryId;
+	private UUID categoryid;
 	
 	@Column(name = "category_name")
-	@NotBlank(message = "SNSERR000001")											//Cannot Be Empty
 	private String categoryName;
 
 	@Column(name = "categorry_description")
-	@NotBlank(message = "SNSERR000001")											//Cannot Be Empty
 	private String categoryDescription;
 	
-	@NotNull
-	private boolean visible;
+	private boolean active;
 
-	public UUID getCategoryId() {
-		return categoryId;
+	public UUID getCategoryid() {
+		return categoryid;
+	}
+
+	public void setCategoryid(UUID categoryid) {
+		this.categoryid = categoryid;
 	}
 
 	public String getCategoryName() {
@@ -51,11 +50,11 @@ public class Category {
 		this.categoryDescription = categoryDescription;
 	}
 
-	public boolean isVisible() {
-		return visible;
+	public boolean isActive() {
+		return active;
 	}
 
-	public void setVisible(boolean visible) {
-		this.visible = visible;
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 }

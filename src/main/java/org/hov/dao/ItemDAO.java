@@ -6,9 +6,9 @@ import java.util.UUID;
 import org.hov.model.Item;
 
 public interface ItemDAO {
-	public UUID addItem(Item item);
+	public boolean addItem(Item item);
 	public boolean updateItem(Item item);
+	public boolean deleteItem(UUID itemId);
 	public Item getItemById(UUID itemId);
-	public List<Item> getItemList();											//Suitable for Buyers
-	public List<Item> getItemListFullDetails();									//Suitable for Sellers, Admins
+	public List<Item> getItemList();											
 }

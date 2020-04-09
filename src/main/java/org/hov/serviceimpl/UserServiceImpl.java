@@ -16,17 +16,17 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	public boolean addUser(User user) {
-		if(userDAO.addUser(user) != null) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return userDAO.addUser(user);
 	}
 
 	@Override
 	public boolean updateUser(User user) {
 		return userDAO.updateUser(user);
+	}
+	
+	@Override
+	public boolean removeUser(UUID userId) {
+		return userDAO.deleteUser(userId);
 	}
 
 	@Override

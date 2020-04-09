@@ -5,11 +5,8 @@ import java.util.UUID;
 
 import javax.persistence.Query;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hov.dao.CategoryDAO;
-import org.hov.model.Admin;
 import org.hov.model.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -22,53 +19,50 @@ public class CategoryDAOImpl implements CategoryDAO{
 	SessionFactory sessionFactory;
 
 	@Override
-	public UUID addCategory(Category category) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = null;
+	public boolean addCategory(Category category) {
 		try{
-			tx = session.beginTransaction();
-			session.persist(category);
-			tx.commit();
-			return category.getCategoryId();
+			sessionFactory.getCurrentSession().persist(category);
+			return true;
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			tx.rollback();
-			return null;
-		}
-		finally{
-			session.close();
+			return false;
 		}
 	}
 
 	@Override
 	public boolean updateCategory(Category category) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = null;
 		try{
-			tx = session.beginTransaction();
-			session.update(category);
-			tx.commit();
+			sessionFactory.getCurrentSession().update(category);
 			return true;
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			tx.rollback();
 			return false;
-		}
-		finally {
-			session.close();
 		}
 	}
 
 	@Override
+	public boolean deleteCategory(UUID categoryId) {
+		try{
+			Category category = new Category();
+			category.setCategoryid(categoryId);
+			sessionFactory.getCurrentSession().delete(category);
+			return true;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	@Override
 	public Category getCategoryById(UUID categoryId) {
 		try {
-			Session session = sessionFactory.getCurrentSession();
-			Query query=session.createQuery("from org.hov.model.Category " +
-											"where categoryId = :id");
+			Query query = sessionFactory.getCurrentSession().createQuery(
+					      "from org.hov.model.Category where categoryid = :id");
 			query.setParameter("id", categoryId);
-			return (Category) query.getResultList().get(0);
+			return (Category)query.getResultList().get(0);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -79,8 +73,8 @@ public class CategoryDAOImpl implements CategoryDAO{
 	@Override
 	public List<Category> getAllCategories() {
 		try {
-			Session session = sessionFactory.getCurrentSession();
-			return session.createQuery("from org.hov.model.Category").list();
+			return sessionFactory.getCurrentSession().createQuery(
+				   "from org.hov.model.Category").list();
 		}
 		catch(Exception e) {
 			e.printStackTrace();

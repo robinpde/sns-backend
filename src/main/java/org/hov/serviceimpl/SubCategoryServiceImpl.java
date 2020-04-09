@@ -13,31 +13,29 @@ import org.springframework.stereotype.Service;
 public class SubCategoryServiceImpl implements SubCategoryService{
 	@Autowired
 	SubCategoryDAO subCategoryDAO;
-	
+
 	@Override
-	public boolean addCategory(SubCategory subCategory) {
-		if(subCategoryDAO.addCategory(subCategory) != null) {
-			return true;
-		}
-		else {
-			return false;
-		}
+	public boolean addSubCategory(SubCategory subCategory) {
+		return subCategoryDAO.addSubCategory(subCategory);
 	}
 
 	@Override
-	public boolean updateCategory(SubCategory subCategory) {
-		return subCategoryDAO.updateCategory(subCategory);
+	public boolean updateSubCategory(SubCategory subCategory) {
+		return subCategoryDAO.updateSubCategory(subCategory);
 	}
 
 	@Override
-	public SubCategory getCategoryById(UUID subCategoryId) {
-		subCategoryDAO.getCategoryById(subCategoryId);
-		return null;
+	public boolean removeSubCategory(UUID subCategoryId) {
+		return subCategoryDAO.deleteSubCategory(subCategoryId);
 	}
 
 	@Override
-	public List<SubCategory> getAllCategories() {
-		subCategoryDAO.getAllCategories();
-		return null;
+	public SubCategory getSubCategoryById(UUID subCategoryId) {
+		return subCategoryDAO.getSubCategoryById(subCategoryId);
+	}
+
+	@Override
+	public List<SubCategory> getSubCategoryList() {
+		return subCategoryDAO.getSubCategoryList();
 	}
 }

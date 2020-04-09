@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
 
@@ -18,23 +16,32 @@ public class SubCategory {
 	@Id
 	@GeneratedValue
 	@Type(type = "uuid-char")
-	private UUID subCategoryId;
+	private UUID subcategoryid;
 	
 	//private Category category;
 	
 	@Column(name = "sub_category_name")
-	@NotBlank(message = "SNSERR000001")											//Cannot Be Empty
 	private String subCategoryName;
 
 	@Column(name = "sub_category_description")
-	@NotBlank(message = "SNSERR000001")											//Cannot Be Empty
 	private String subCategoryDescription;
 
-	@NotNull
-	private boolean visible;
+	private boolean active;
 
-	public UUID getSubCategoryId() {
-		return subCategoryId;
+	public UUID getSubcategoryid() {
+		return subcategoryid;
+	}
+
+	public void setSubcategoryid(UUID subcategoryid) {
+		this.subcategoryid = subcategoryid;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 	public String getSubCategoryName() {
@@ -51,13 +58,5 @@ public class SubCategory {
 
 	public void setSubCategoryDescription(String subCategoryDescription) {
 		this.subCategoryDescription = subCategoryDescription;
-	}
-
-	public boolean isVisible() {
-		return visible;
-	}
-
-	public void setVisible(boolean visible) {
-		this.visible = visible;
 	}
 }
