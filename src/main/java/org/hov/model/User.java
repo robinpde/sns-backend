@@ -54,8 +54,8 @@ public class User {
 	@Column(name = "date_of_birth")
 	private Date dob;
 	
-	@Column(name = "user_picture_url")
-	private URL userPicture;
+	@Column(name = "picture_url")
+	private URL pictureURL;
 	
 	@Enumerated(EnumType.ORDINAL)
 	private Gender gender;
@@ -163,13 +163,13 @@ public class User {
 	public void setDob(Date dob) {
 		this.dob = dob;
 	}
-
-	public URL getUserPicture() {
-		return userPicture;
+	
+	public URL getPictureURL() {
+		return pictureURL;
 	}
 
-	public void setUserPicture(URL userPicture) {
-		this.userPicture = userPicture;
+	public void setPictureURL(URL pictureURL) {
+		this.pictureURL = pictureURL;
 	}
 
 	public Gender getGender() {

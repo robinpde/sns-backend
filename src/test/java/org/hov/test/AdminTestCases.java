@@ -30,7 +30,7 @@ public class AdminTestCases {
 	@Ignore
 	public void addAdmin1() {
 		Admin admin = new Admin();
-		admin.setAdminId("333777");
+		admin.setAdminid("333777");
 		admin.setEmail("mail4u@email.com");
 		admin.setFirstName("Admin5 First Name");
 		admin.setLastName("Admin5 Last Name");

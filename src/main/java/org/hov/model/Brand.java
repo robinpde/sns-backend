@@ -25,11 +25,11 @@ public class Brand {
 	@Column(name = "brand_tag_line")
 	private String brandTagline;
 
-	@Column(name = "brand_description")
+	@Column(name = "brand_desc")
 	private String brandDescription;
 
-	@Column(name = "brand_logo_url")
-	private URL brandLogo;
+	@Column(name = "logo_url")
+	private URL LogoURL;
 
 	private boolean active;
 
@@ -40,13 +40,13 @@ public class Brand {
 	public void setBrandid(UUID brandid) {
 		this.brandid = brandid;
 	}
-
-	public URL getBrandLogo() {
-		return brandLogo;
+	
+	public URL getLogoURL() {
+		return LogoURL;
 	}
 
-	public void setBrandLogo(URL brandLogo) {
-		this.brandLogo = brandLogo;
+	public void setLogoURL(URL logoURL) {
+		LogoURL = logoURL;
 	}
 
 	public String getBrandName() {
@@ -71,14 +71,6 @@ public class Brand {
 
 	public void setBrandDescription(String brandDescription) {
 		this.brandDescription = brandDescription;
-	}
-
-	public URL getBrandLogoURL() {
-		return brandLogo;
-	}
-
-	public void setBrandLogoURL(URL brandLogoURL) {
-		this.brandLogo = brandLogoURL;
 	}
 
 	public boolean isActive() {

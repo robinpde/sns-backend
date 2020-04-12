@@ -1,5 +1,6 @@
 package org.hov.model;
 
+import java.net.URL;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -28,15 +29,48 @@ public class Item {
 	@Column(name = "item_name")
 	private String itemName;
 	
+	@Column(name = "item_desc")
+	private String itemDescription;
+	
 	@Column(name = "item_price")
 	private double itemPrice;
 
+	@Column(name = "items_on_stock")
+	private int itemsOnStock;
+	
+	@Column(name = "image_url")
+	private URL imageURL;
+	
 	public UUID getItemid() {
 		return itemid;
 	}
 
 	public void setItemid(UUID itemid) {
 		this.itemid = itemid;
+	}
+
+	public URL getImageURL() {
+		return imageURL;
+	}
+
+	public void setImageURL(URL imageURL) {
+		this.imageURL = imageURL;
+	}
+
+	public String getItemDescription() {
+		return itemDescription;
+	}
+
+	public void setItemDescription(String itemDescription) {
+		this.itemDescription = itemDescription;
+	}
+
+	public int getItemsOnStock() {
+		return itemsOnStock;
+	}
+
+	public void setItemsOnStock(int itemsOnStock) {
+		this.itemsOnStock = itemsOnStock;
 	}
 
 	public double getItemPrice() {

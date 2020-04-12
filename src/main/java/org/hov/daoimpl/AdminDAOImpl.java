@@ -45,7 +45,7 @@ public class AdminDAOImpl implements AdminDAO{
 	public boolean deleteAdmin(String adminId) {
 		try {
 			Admin admin = new Admin();
-			admin.setAdminId(adminId);
+			admin.setAdminid(adminId);
 			sessionFactory.getCurrentSession().delete(admin);
 			return true;
 		}

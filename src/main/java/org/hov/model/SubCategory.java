@@ -23,7 +23,7 @@ public class SubCategory {
 	@Column(name = "sub_category_name")
 	private String subCategoryName;
 
-	@Column(name = "sub_category_description")
+	@Column(name = "sub_category_desc")
 	private String subCategoryDescription;
 
 	private boolean active;

@@ -21,7 +21,7 @@ public class Category {
 	@Column(name = "category_name")
 	private String categoryName;
 
-	@Column(name = "categorry_description")
+	@Column(name = "category_desc")
 	private String categoryDescription;
 	
 	private boolean active;

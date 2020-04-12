@@ -45,18 +45,18 @@ public class Admin
 	private String lastName;
 
 	@Column(name = "picture_url")
-	private URL picture;
+	private URL pictureURL;
 	
 	private boolean suspended;
-
-	public String getAdminId() {
+	
+	public String getAdminid() {
 		return adminid;
 	}
 
-	public void setAdminId(String id) {
-		this.adminid = id;
+	public void setAdminid(String adminid) {
+		this.adminid = adminid;
 	}
-	
+
 	public String getEmail() {
 		return email;
 	}
@@ -105,11 +105,11 @@ public class Admin
 		this.password = password;
 	}
 
-	public URL getPicture() {
-		return picture;
+	public URL getPictureURL() {
+		return pictureURL;
 	}
 
-	public void setPicture(URL picture) {
-		this.picture = picture;
+	public void setPictureURL(URL pictureURL) {
+		this.pictureURL = pictureURL;
 	}
 }

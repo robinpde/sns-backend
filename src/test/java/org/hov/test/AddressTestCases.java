@@ -19,7 +19,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringJUnitConfig(classes = AppConfig.class)
 public class AddressTestCases {
 	@Autowired
-	AddressService addressService;
+	AddressService addressService; 
 	
 	@Test
 	@Ignore
@@ -40,7 +40,7 @@ public class AddressTestCases {
 	}
 	
 	@Test
-	//@Ignore
+	@Ignore
 	public void getAddressBById1() {
 		Address a = addressService.getAddressById(UUID.fromString("fd79430d-e8dd-4fe8-adbc-0ba4af67bc3b"));
 		System.out.println(a.getAddressName());
