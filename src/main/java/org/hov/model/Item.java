@@ -29,7 +29,7 @@ public class Item {
 	@Column(name = "item_name")
 	private String itemName;
 	
-	@Column(name = "item_desc")
+	@Column(name = "item_desc", length = 510)
 	private String itemDescription;
 	
 	@Column(name = "item_price")

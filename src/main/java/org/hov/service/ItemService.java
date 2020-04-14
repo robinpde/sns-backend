@@ -8,6 +8,7 @@ import org.hov.model.Item;
 public interface ItemService {
 	public boolean addItem(Item item);
 	public boolean updateItem(Item item);
+	public boolean removeItem(UUID itemId);
 	public Item getItemById(UUID itemId);
 	public List<Item> getItemList();
 }

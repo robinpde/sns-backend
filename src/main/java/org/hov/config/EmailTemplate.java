@@ -8,16 +8,15 @@ public class EmailTemplate {
 	public static final String HTML_HEADER = "<html><body>" +
 	"<b>Email Design Test</b>";
 	
-	public static final String HTML_FOOTER = "/body>/html>";
+	public static final String HTML_FOOTER = "</body></html>";
 	
 	/* CONSTANTS STRINGS FOR REPLACING */
 	public static final String PARAM_LOGO_URL = "$ZLOGO_URL$";
 	public static final String PARAM_USER_NAME = "$ZUSER_NAMEZ$";
 	public static final String PARAM_ORDER_TEXT = "$ZORDER_TEXTZ$";
-	public static final String PARAM_ORRDER_AMOUNT = "$ZORDER_AMOUNTZ$";
+	public static final String PARAM_ORDER_AMOUNT = "$ZORDER_AMOUNTZ$";
 	public static final String PARAM_VERIFICATION_CODE = "$ZVERIFICATION_CODEZ$";
 	public static final String PARAM_HTTP_LINK = "$ZHTTP_LINKZ$";
-	public static final String PARAM_PROMO_ITEM = "$ZPROMO_ITEMZ$";
 	
 	public static String subject[][];
 	public static String body[][];
@@ -37,8 +36,8 @@ public class EmailTemplate {
 		subject[0][10]= "Return for Order: " + PARAM_ORDER_TEXT + " Requested!";
 		subject[0][11]= "Order: " + PARAM_ORDER_TEXT + " Returned!";
 		subject[0][12]= "Order: " + PARAM_ORDER_TEXT + " Refunded!";
-		subject[0][13]= "Promotion for Product: " + PARAM_PROMO_ITEM + "Activated!!";
-		subject[0][14]= "Promotion for Product: " + PARAM_PROMO_ITEM + "Expiring";
+		subject[0][13]= "Promotion for Product: " + PARAM_ORDER_TEXT + "Activated!!";
+		subject[0][14]= "Promotion for Product: " + PARAM_ORDER_TEXT + "Expiring";
 		
 		/* BODY[ 'LOCALE_EN' , 'EMAIL_TYPE'] */
 		body[0][0] = HTML_HEADER + 
@@ -88,7 +87,7 @@ public class EmailTemplate {
 			 	  HTML_FOOTER;
 		
 		/* SUBJECT['LOCALE_HI' , 'EMAIL_TYPE'] */
-		subject[1][0] = "ईमेल सत्यापन लिंक";
+		subject[1][0] = "hindi text";
 		subject[1][1] = "Email Change Link from ShopNScroll";
 		subject[1][2] = "Password Change Link from ShopNScroll";
 		subject[1][3] = "Payment Pending for Order: " + PARAM_ORDER_TEXT;
@@ -101,8 +100,8 @@ public class EmailTemplate {
 		subject[1][10]= "Return for Order: " + PARAM_ORDER_TEXT + " Requested!";
 		subject[1][11]= "Order: " + PARAM_ORDER_TEXT + " Returned!";
 		subject[1][12]= "Order: " + PARAM_ORDER_TEXT + " Refunded!";
-		subject[1][13]= "Promotion for Product: " + PARAM_PROMO_ITEM + "Activated!!";
-		subject[1][14]= "Promotion for Product: " + PARAM_PROMO_ITEM + "Expiring";
+		subject[1][13]= "Promotion for Product: " + PARAM_ORDER_TEXT  + "Activated!!";
+		subject[1][14]= "Promotion for Product: " + PARAM_ORDER_TEXT  + "Expiring";
 		
 		/* BODY['LOCALE_HI' , 'EMAIL_TYPE'] */
 		body[1][0] = HTML_HEADER + 

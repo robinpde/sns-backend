@@ -25,7 +25,7 @@ public class Brand {
 	@Column(name = "brand_tag_line")
 	private String brandTagline;
 
-	@Column(name = "brand_desc")
+	@Column(name = "brand_desc", length = 510)
 	private String brandDescription;
 
 	@Column(name = "logo_url")

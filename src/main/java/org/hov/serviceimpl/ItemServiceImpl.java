@@ -25,6 +25,11 @@ public class ItemServiceImpl implements ItemService{
 	}
 
 	@Override
+	public boolean removeItem(UUID itemId) {
+		return itemDAO.deleteItem(itemId);
+	}
+	
+	@Override
 	public Item getItemById(UUID itemId) {
 		return itemDAO.getItemById(itemId);
 	}
