@@ -54,4 +54,13 @@ public class UserTestCases {
 		System.out.println(u.getFirstName());
 		assertEquals(true, true);
 	}
+	
+	@Test
+	@Ignore
+	public void getUserByEmailValid1() {
+		User u = userService.getUserByEmail("textman@gmail.com");
+		System.out.println(u.getFirstName());
+		System.out.println(u.getPassword());
+		assertEquals(true, true);
+	}
 }

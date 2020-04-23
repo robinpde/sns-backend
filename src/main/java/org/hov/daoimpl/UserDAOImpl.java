@@ -71,6 +71,34 @@ public class UserDAOImpl implements UserDAO{
 	}
 
 	@Override
+	public User getUserByEmail(String email) {		
+		try {
+			Query query = sessionFactory.getCurrentSession().createQuery(
+						  "from org.hov.model.User where email = :email");
+			query.setParameter("email", email);
+			return (User)query.getResultList().get(0);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public User getUserByPhone(String phone) {
+		try {
+			Query query = sessionFactory.getCurrentSession().createQuery(
+						  "from org.hov.model.User where phone = :phone");
+			query.setParameter("phone", phone);
+			return (User)query.getResultList().get(0);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@Override
 	public List<User> getAllUsers() {
 		try {
 			return sessionFactory.getCurrentSession().createQuery(

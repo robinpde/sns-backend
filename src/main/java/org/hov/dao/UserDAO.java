@@ -10,5 +10,7 @@ public interface UserDAO {
 	public boolean updateUser(User user);
 	public boolean deleteUser(UUID userId);
 	public User getUserById(UUID userId);
+	public User getUserByEmail(String email);
+	public User getUserByPhone(String phone);
 	public List<User> getAllUsers();
 }

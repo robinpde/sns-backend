@@ -12,5 +12,7 @@ public interface UserService {
 	public boolean activateUser(UUID userId);
 	public boolean deactivateUser(UUID userId);
 	public User getUserById(UUID userId);
+	public User getUserByEmail(String email);
+	public User getUserByPhone(String phone);
 	public List<User> getAllUsers();
 }

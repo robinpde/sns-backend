@@ -41,6 +41,9 @@ public class Item {
 	@Column(name = "image_url")
 	private URL imageURL;
 	
+	@Column(name = "image_path")
+	private String imagePath;
+	
 	public UUID getItemid() {
 		return itemid;
 	}
@@ -95,5 +98,13 @@ public class Item {
 
 	public void setVendor(Vendor vendor) {
 		this.vendor = vendor;
+	}
+
+	public String getImagePath() {
+		return imagePath;
+	}
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
 	}
 }

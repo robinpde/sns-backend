@@ -34,7 +34,7 @@ public class AdminTestCases {
 		admin.setEmail("mail4u@email.com");
 		admin.setFirstName("Admin5 First Name");
 		admin.setLastName("Admin5 Last Name");
-		admin.setSuspended(false);
+		admin.setActive(true);
 		admin.setAdminType(AdminType.FUND_ADMIN);
 		
 		assertTrue(adminService.addAdmin(admin));

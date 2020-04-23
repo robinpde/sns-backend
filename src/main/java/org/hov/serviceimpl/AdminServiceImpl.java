@@ -37,10 +37,10 @@ public class AdminServiceImpl implements AdminService{
 	public boolean toggleSuspend(String adminId) {
 		try {
 			Admin admin = adminDAO.getAdminbyId(adminId);
-			if(admin.isSuspended()) {
-				admin.setSuspended(false);
+			if(admin.isActive()) {
+				admin.setActive(false);
 			}else {
-				admin.setSuspended(true);
+				admin.setActive(true);
 			}
 			updateAdmin(admin);
 			return true;

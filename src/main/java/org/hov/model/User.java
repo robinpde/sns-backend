@@ -32,12 +32,13 @@ public class User {
 	@Type(type = "uuid-char")
 	private UUID userid;
 	
-	@Column
+	@Column(unique = true)
 	private String email;
 
 	@Column(name = "email_veriified")
 	private boolean emailVerified;
 
+	@Column(unique = true)
 	private String phone;
 
 	@Column(name = "phone_veriified")
@@ -60,7 +61,7 @@ public class User {
 	@Enumerated(EnumType.ORDINAL)
 	private Gender gender;
 	
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	private UserType userType;
 
 	@Column(name = "dark_mode")

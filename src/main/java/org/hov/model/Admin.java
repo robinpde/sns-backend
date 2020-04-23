@@ -47,7 +47,7 @@ public class Admin
 	@Column(name = "picture_url")
 	private URL pictureURL;
 	
-	private boolean suspended;
+	private boolean active;
 	
 	public String getAdminid() {
 		return adminid;
@@ -89,12 +89,12 @@ public class Admin
 		this.adminType = adminType;
 	}
 
-	public boolean isSuspended() {
-		return suspended;
+	public boolean isActive() {
+		return active;
 	}
 
-	public void setSuspended(boolean suspended) {
-		this.suspended = suspended;
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 	public String getPassword() {
