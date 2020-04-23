@@ -38,4 +38,19 @@ public class ItemServiceImpl implements ItemService{
 	public List<Item> getItemList() {
 		return itemDAO.getItemList();
 	}
+
+	@Override
+	public List<Item> getItemListbyPrice(String order) {
+		if(order.equals("asc")) {
+			return itemDAO.getItemListbyPrice();
+		}
+		else {
+			return itemDAO.getItemListbyPriceDesc();
+		}
+	}
+
+	@Override
+	public List<Item> getItemBySearch(String text) {
+		return itemDAO.getItemBySearch(text);
+	}
 }

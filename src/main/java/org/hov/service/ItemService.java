@@ -11,4 +11,6 @@ public interface ItemService {
 	public boolean removeItem(UUID itemId);
 	public Item getItemById(UUID itemId);
 	public List<Item> getItemList();
+	public List<Item> getItemListbyPrice(String order);
+	public List<Item> getItemBySearch(String text);	
 }

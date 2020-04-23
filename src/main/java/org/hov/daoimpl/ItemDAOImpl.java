@@ -81,4 +81,46 @@ public class ItemDAOImpl implements ItemDAO{
 			return null;
 		}
 	}
+
+	@Override
+	public List<Item> getItemListbyPrice() {
+		try {
+			Query query = sessionFactory.getCurrentSession().createQuery(
+					  	  "from org.hov.model.Item " + 
+						  "order by itemPrice asc");
+			return query.getResultList();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@Override
+	public List<Item> getItemListbyPriceDesc() {
+		try {
+			Query query = sessionFactory.getCurrentSession().createQuery(
+					  	  "from org.hov.model.Item " + 
+						  "order by itemPrice desc");
+			return query.getResultList();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<Item> getItemBySearch(String text) {
+		try {
+			Query query = sessionFactory.getCurrentSession().createQuery(
+					  	  "from org.hov.model.Item " + 
+						  "where itemName like :txt");
+			return query.setParameter("txt", "%"+text+"%").getResultList();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }
