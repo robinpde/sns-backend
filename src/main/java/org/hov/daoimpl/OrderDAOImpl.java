@@ -45,7 +45,7 @@ public class OrderDAOImpl implements OrderDAO{
 	public boolean deleteOrder(UUID orderId) {
 		try{
 			Order order = new Order();
-			order.setOrderId(orderId);
+			order.setOrderid(orderId);
 			sessionFactory.getCurrentSession().delete(order);
 			return true;
 		}

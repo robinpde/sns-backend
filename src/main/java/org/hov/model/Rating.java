@@ -1,12 +1,18 @@
 package org.hov.model;
 
-import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
@@ -20,35 +26,33 @@ public class Rating {
 	@Type(type = "uuid-char")
 	private UUID ratingid;
 	
-	//@NotNull
-	//private Item item;
-	
-	//@Column
-	//private User user;
-	
-	@Column
+	@Column(name = "rating_value")
 	@Range(min = 1, max = 5, message = "SNSERR000006")							//Out of Range
-	private int value;
+	private int ratingValue;
+	
+	@Column(name="summary_text")
 	private String summary;
-	private String text;
-	private URL image1;
-	private URL image2;
-	private URL image3;
 
+	@Column(name="comment_text")
+	private String comment;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "rated_item")
+	private Item ratedItem;
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "linked_user")
+	private User linkedUser;
+	
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "images_list")
+	private List<MetaFile> imagesList = new ArrayList<>();
+	
 	public UUID getRatingid() {
 		return ratingid;
 	}
 
 	public void setRatingid(UUID ratingid) {
 		this.ratingid = ratingid;
-	}
-
-	public int getValue() {
-		return value;
-	}
-	
-	public void setValue(int value) {
-		this.value = value;
 	}
 	
 	public String getSummary() {
@@ -59,35 +63,54 @@ public class Rating {
 		this.summary = summary;
 	}
 
-	public String getText() {
-		return text;
+	public String getComment() {
+		return comment;
 	}
 
-	public void setText(String text) {
-		this.text = text;
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 
-	public URL getImage1() {
-		return image1;
+	public Item getRatedItem() {
+		return ratedItem;
+	}
+
+	public void setRatedItem(Item ratedItem) {
+		this.ratedItem = ratedItem;
+	}
+
+	public User getLinkedUser() {
+		return linkedUser;
+	}
+
+	public void setLinkedUser(User linkedUser) {
+		this.linkedUser = linkedUser;
+	}
+
+	public int getRatingValue() {
+		return ratingValue;
+	}
+
+	public void setRatingValue(int ratingValue) {
+		this.ratingValue = ratingValue;
+	}
+
+	/* IMAGESLIST HELPER FUNCTIONS */
+	public List<MetaFile> getImagesList() {
+		return imagesList;
 	}
 	
-	public void setImage1(URL image1) {
-		this.image1 = image1;
+	public void addMetaFile(MetaFile file) {
+		if(file != null) {
+			this.getImagesList().add(file);
+			file.setLinked(true);
+		}
 	}
 	
-	public URL getImage2() {
-		return image2;
-	}
-	
-	public void setImage2(URL image2) {
-		this.image2 = image2;
-	}
-	
-	public URL getImage3() {
-		return image3;
-	}
-	
-	public void setImage3(URL image3) {
-		this.image3 = image3;
+	public void remmoveMetaFile(MetaFile file) {
+		if(file != null) {
+			this.getImagesList().remove(file);
+			file.setLinked(false);
+		}
 	}
 }

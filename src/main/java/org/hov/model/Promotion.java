@@ -1,6 +1,5 @@
 package org.hov.model;
 
-import java.net.URL;
 import java.util.Date;
 import java.util.UUID;
 
@@ -8,8 +7,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -24,27 +27,26 @@ public class Promotion {
 	@Type(type = "uuid-char")
 	private UUID promoid;
 	
-	//@Column
-	//@NotNull
-	//private Item item;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "linked_item")
+	private Item linkedItem;
 	
-	//@NotNull
-	//private User user;
-	
-	//@NotNull
-	//private Payment payment;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "linked_vendor")
+	private Vendor linkedVendor;
 
 	@Column(name = "promotion_type")
-	@NotNull
 	@Enumerated(EnumType.ORDINAL)
 	private PromoType promoType;
 	
-	@NotNull
-	private boolean active;
-
-	@Column(name = "banner_url")
-	private URL bannerURL;
-
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "picture_meta_file")
+	private MetaFile pictureMetaFile;
+	
+	//@OneToOne(fetch = FetchType.LAZY)
+	//@JoinColumn(name = "payment_link")
+	//private PaymentLink paymentLink;
+	
 	@Column(name = "start_date")
 	private Date startDate;
 
@@ -53,6 +55,9 @@ public class Promotion {
 	
 	@Column(name = "read_count")
 	private long readCount;
+	
+	@NotNull
+	private boolean active;
 
 	public UUID getPromoid() {
 		return promoid;
@@ -68,14 +73,6 @@ public class Promotion {
 
 	public void setPromoType(PromoType promoType) {
 		this.promoType = promoType;
-	}
-
-	public URL getBannerURL() {
-		return bannerURL;
-	}
-	
-	public void setBannerURL(URL bannerURL) {
-		this.bannerURL = bannerURL;
 	}
 	
 	public boolean isActive() {
@@ -109,4 +106,41 @@ public class Promotion {
 	public void setReadCount(long readCount) {
 		this.readCount = readCount;
 	}
+	
+	public Item getLinkedItem() {
+		return linkedItem;
+	}
+
+	public void setLinkedItem(Item linkedItem) {
+		this.linkedItem = linkedItem;
+	}
+
+	public Vendor getLinkedVendor() {
+		return linkedVendor;
+	}
+
+	public void setLinkedVendor(Vendor linkedVendor) {
+		this.linkedVendor = linkedVendor;
+	}
+
+	/* PICTURE META FILE HELPER FUNCTIONS */
+	public MetaFile getPictureMetaFile() {
+		return pictureMetaFile;
+	}
+	
+	public void setPictureMetaFile(MetaFile pictureMetaFile) {
+		this.pictureMetaFile = pictureMetaFile;
+	}
+
+	public void addPictureMetaFile(MetaFile file) {
+		if(file!=null) {
+			this.pictureMetaFile = file;
+			file.setLinked(true);
+		}
+	}
+	
+	public void removePictureMetaFile() {
+		this.setPictureMetaFile(null);
+		this.getPictureMetaFile().setLinked(false);
+	}	
 }

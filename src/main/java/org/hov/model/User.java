@@ -1,6 +1,5 @@
 package org.hov.model;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -55,13 +54,10 @@ public class User {
 	@Column(name = "date_of_birth")
 	private Date dob;
 	
-	@Column(name = "picture_url")
-	private URL pictureURL;
-	
 	@Enumerated(EnumType.ORDINAL)
 	private Gender gender;
 	
-	@Enumerated(EnumType.STRING)
+	@Enumerated(EnumType.ORDINAL)
 	private UserType userType;
 
 	@Column(name = "dark_mode")
@@ -70,23 +66,26 @@ public class User {
 	@Column(name = "silent_mode")
 	private boolean silentMode;
 
-	@Column(name = "email_alert")
-	private boolean emailAlert;
-
 	@Enumerated(EnumType.ORDINAL)
 	private Locales localization;
-
-	//private List<UUID> wishList = new ArrayList<>();
 	
+	@OneToOne
+	@JoinColumn(name = "picture_meta_file")
+	private MetaFile pictureMetaFile;
+
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-	@JoinColumn(name = "vendorId")
-	private Vendor vendor;
+	@JoinColumn(name = "linked_vendor")
+	private Vendor linkedVendor;
+
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "wish_item_list")
+	private List<Item> wishList = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Address> addressList = new ArrayList<>();
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-	private List<Link> linksList = new ArrayList<>();
+	private List<OTPLink> otpLinkList = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Order> orderList = new ArrayList<>();
@@ -164,14 +163,6 @@ public class User {
 	public void setDob(Date dob) {
 		this.dob = dob;
 	}
-	
-	public URL getPictureURL() {
-		return pictureURL;
-	}
-
-	public void setPictureURL(URL pictureURL) {
-		this.pictureURL = pictureURL;
-	}
 
 	public Gender getGender() {
 		return gender;
@@ -205,14 +196,6 @@ public class User {
 		this.silentMode = silentMode;
 	}
 
-	public boolean isEmailAlert() {
-		return emailAlert;
-	}
-
-	public void setEmailAlert(boolean emailAlert) {
-		this.emailAlert = emailAlert;
-	}
-
 	public Locales getLocalization() {
 		return localization;
 	}
@@ -228,13 +211,42 @@ public class User {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
+	
+	public Vendor getLinkedVendor() {
+		return linkedVendor;
+	}
 
+	public void setLinkedVendor(Vendor linkedVendor) {
+		this.linkedVendor = linkedVendor;
+	}
+
+	/* LINKS-LIST HELPER FUNCTIONS */
+	public List<OTPLink> getLinksList() {
+		return otpLinkList;
+	}
+	
+	public void addLink(OTPLink link) {
+		if(link != null) {
+			link.setUser(this);
+			this.getLinksList().add(link);
+		}
+	}
+	
+	public void removeLink(OTPLink link) {
+		if(link != null) {
+			link.setUser(null);
+			this.getLinksList().remove(link);
+		}
+	}
+
+	/* ADDRESS LIST HELPER FUNCTIONS */
 	public List<Address> getAddressList() {
 		return addressList;
 	}
 	
 	public void addAddress(Address address) {
 		if(address != null) {
+			address.setUser(this);
 			this.getAddressList().add(address);
 		}
 	}
@@ -245,46 +257,61 @@ public class User {
 			this.getAddressList().remove(address);
 		}
 	}
-
-	public Vendor getVendor() {
-		return vendor;
-	}
-
-	public void setVendor(Vendor vendor) {
-		this.vendor = vendor;
-	}
-
-	public List<Link> getLinksList() {
-		return linksList;
-	}
 	
-	public void addLink(Link link) {
-		if(link != null) {
-			this.getLinksList().add(link);
-		}
-	}
-	
-	public void removeLink(Link link) {
-		if(link != null) {
-			link.setUser(null);
-			this.getLinksList().remove(link);
-		}
-	}
-
+	/* ORDERLIST HELPER FUNCTIONS */
 	public List<Order> getOrderList() {
 		return orderList;
 	}
 
 	public void addOrder(Order order) {
 		if(order != null) {
+			order.setUser(this);
 			this.getOrderList().add(order);
 		}
 	}
 	
-	public void remmoveOrder(Order order) {
+	public void removeOrder(Order order) {
 		if(order != null) {
 			order.setUser(null);
 			this.getOrderList().remove(order);
 		}
+	}
+
+	/* WISHLIST HELPER FUNCTIONS */
+	public List<Item> getWishList() {
+		return wishList;
+	}
+	
+	public void addWishItem(Item item) {
+		if(item != null) {
+			this.getWishList().add(item);
+		}
+	}
+	
+	public void removeWishItem(Item item) {
+		if(item != null) {
+			this.getWishList().remove(item);
+		}
+	}
+
+	/* PICTURE META FILE HELPER FUNCTIONS */
+	public MetaFile getPictureMetaFile() {
+		return pictureMetaFile;
+	}
+	
+	public void setPictureMetaFile(MetaFile pictureMetaFile) {
+		this.pictureMetaFile = pictureMetaFile;
+	}
+
+	public void addPictureMetaFile(MetaFile file) {
+		if(file!=null) {
+			this.pictureMetaFile = file;
+			file.setLinked(true);
+		}
+	}
+	
+	public void removePictureMetaFile() {
+		this.setPictureMetaFile(null);
+		this.getPictureMetaFile().setLinked(false);
 	}
 }

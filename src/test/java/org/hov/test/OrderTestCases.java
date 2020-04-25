@@ -33,7 +33,7 @@ public class OrderTestCases {
 	@Ignore
 	public void updaterderValid1() {
 		Order o = orderService.getOrderById(UUID.fromString("86f4e59f-05f8-4c47-b1a8-f3a3b832bacb"));
-		o.setOrderStatus(OrderStatus.IN_CART);
+		o.setOrderStatus(OrderStatus.ORDER_IN_CART);
 		assertTrue(orderService.updateOrder(o));
 	}
 	

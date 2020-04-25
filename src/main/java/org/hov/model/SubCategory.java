@@ -4,8 +4,11 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
@@ -18,7 +21,9 @@ public class SubCategory {
 	@Type(type = "uuid-char")
 	private UUID subcategoryid;
 	
-	//private Category category;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "category")
+	private Category category;
 	
 	@Column(name = "sub_category_name")
 	private String subCategoryName;
@@ -58,5 +63,13 @@ public class SubCategory {
 
 	public void setSubCategoryDescription(String subCategoryDescription) {
 		this.subCategoryDescription = subCategoryDescription;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 }

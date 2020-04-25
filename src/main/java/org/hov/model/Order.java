@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -27,13 +28,9 @@ public class Order {
 	@Type(type = "uuid-char")
 	private UUID orderid;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "linked_user")
-	private User user;
-	
-	//private Item item;
-	
-	//private Payment payment;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "order_item")
+	private Item orderItem;
 
 	@Column
 	private int quantity;
@@ -49,13 +46,21 @@ public class Order {
 	@Column(name = "updated_timestamp")
 	@UpdateTimestamp
 	private Date updatedTime;
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "linked_user")
+	private User user;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "payment_link")
+	private PaymentLink paymentLink;
 
-	public UUID getOrderId() {
+	public UUID getOrderid() {
 		return orderid;
 	}
 
-	public void setOrderId(UUID orderId) {
-		this.orderid = orderId;
+	public void setOrderid(UUID orderid) {
+		this.orderid = orderid;
 	}
 
 	public OrderStatus getOrderStatus() {
@@ -96,5 +101,21 @@ public class Order {
 
 	public void setUpdatedTime(Date updatedTime) {
 		this.updatedTime = updatedTime;
+	}
+
+	public Item getOrderItem() {
+		return orderItem;
+	}
+
+	public void setOrderItem(Item orderItem) {
+		this.orderItem = orderItem;
+	}
+
+	public PaymentLink getPaymentLink() {
+		return paymentLink;
+	}
+
+	public void setPaymentLink(PaymentLink paymentLink) {
+		this.paymentLink = paymentLink;
 	}
 }

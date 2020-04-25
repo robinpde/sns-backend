@@ -6,7 +6,7 @@ import javax.persistence.Query;
 
 import org.hibernate.SessionFactory;
 import org.hov.dao.PaymentDAO;
-import org.hov.model.Payment;
+import org.hov.model.PaymentLink;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +18,7 @@ public class PaymentDAOImpl implements PaymentDAO{
 	SessionFactory sessionFactory;
 
 	@Override
-	public boolean createPayment(Payment payment) {
+	public boolean createPayment(PaymentLink payment) {
 		try{
 			sessionFactory.getCurrentSession().persist(payment);
 			return true;
@@ -30,7 +30,7 @@ public class PaymentDAOImpl implements PaymentDAO{
 	}
 
 	@Override
-	public boolean updatePayment(Payment payment) {
+	public boolean updatePayment(PaymentLink payment) {
 		try{
 			sessionFactory.getCurrentSession().update(payment);
 			return true;
@@ -44,7 +44,7 @@ public class PaymentDAOImpl implements PaymentDAO{
 	@Override
 	public boolean deletePayment(UUID paymentId) {
 		try{
-			Payment payment = new Payment();
+			PaymentLink payment = new PaymentLink();
 			payment.setPaymentid(paymentId);
 			sessionFactory.getCurrentSession().delete(payment);
 			return true;
@@ -56,12 +56,12 @@ public class PaymentDAOImpl implements PaymentDAO{
 	}
 
 	@Override
-	public Payment getPaymentById(UUID paymentId) {
+	public PaymentLink getPaymentById(UUID paymentId) {
 		try {
 			Query query = sessionFactory.getCurrentSession().createQuery(
 						  "from org.hov.model.Payment where paymentid = :id");
 			query.setParameter("id", paymentId);
-			return (Payment)query.getResultList().get(0);
+			return (PaymentLink)query.getResultList().get(0);
 		}
 		catch(Exception e) {
 			e.printStackTrace();

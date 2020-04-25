@@ -1,8 +1,9 @@
 package org.hov.enums;
 
 public enum OrderStatus {
-	IN_CART,
-	PAID,
+	ORDER_IN_CART,
+	ORDER_CHECKED,
+	ORDER_PAID,
 	ORDER_PREPARED,
 	ORDER_DISPATCHED,
 	ORDER_CANCELLED,

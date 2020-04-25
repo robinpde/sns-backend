@@ -4,5 +4,5 @@ public enum RequestStatus {
 	INITIATED,
 	ASSIGNED,
 	REJECTED,
-	CLOSED
+	ACCEPTED
 }

@@ -7,7 +7,7 @@ import java.util.UUID;
 
 import org.hov.config.AppConfig;
 import org.hov.enums.LinkType;
-import org.hov.model.Link;
+import org.hov.model.OTPLink;
 import org.hov.service.LinkService;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -25,7 +25,7 @@ public class LinkTestCases {
 	@Test
 	@Ignore
 	public void addLinkValid1() {
-		Link l = new Link();
+		OTPLink l = new OTPLink();
 		l.setLinkValue("LOREM IPSUM1");
 		l.setLinkType(LinkType.EMAIL_VERIFICATION);
 		assertTrue(linkService.generateLink(l));

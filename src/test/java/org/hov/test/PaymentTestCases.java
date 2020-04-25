@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.UUID;
 
 import org.hov.config.AppConfig;
-import org.hov.model.Payment;
+import org.hov.model.PaymentLink;
 import org.hov.service.PaymentService;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -23,16 +23,16 @@ public class PaymentTestCases {
 	@Test
 	@Ignore
 	public void addPaymentValid1() {
-		Payment p = new Payment();
-		p.setPaymentLog("Initial Log:1236");
+		PaymentLink p = new PaymentLink();
+		p.appendPaymentLog("log test 2");
 		assertTrue(paymentService.createPayment(p));
 	}
 	
 	@Test
 	@Ignore
 	public void updatePaymentValid1(){
-		Payment p = paymentService.getPaymentById(UUID.fromString("2a5d8e6e-c5ca-456c-b891-82bb8de04681"));
-		p.setPaymentLog("Updated Log");
+		PaymentLink p = paymentService.getPaymentById(UUID.fromString("2a5d8e6e-c5ca-456c-b891-82bb8de04681"));
+		p.appendPaymentLog("log test 3");
 		assertTrue(paymentService.updatePayment(p));
 	}
 }

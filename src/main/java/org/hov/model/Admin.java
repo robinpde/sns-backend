@@ -1,12 +1,12 @@
 package org.hov.model;
 
-import java.net.URL;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 
@@ -14,7 +14,7 @@ import org.hibernate.validator.constraints.UniqueElements;
 import org.hov.enums.AdminType;
 
 @Entity
-@Table(name = "administrator")
+@Table(name = "administrators")
 public class Admin
 {
 	@Id						
@@ -44,8 +44,9 @@ public class Admin
 	@Column(name = "last_name")
 	private String lastName;
 
-	@Column(name = "picture_url")
-	private URL pictureURL;
+	@OneToOne
+	@JoinColumn(name = "picture_meta_file")
+	private MetaFile pictureMetaFile;
 	
 	private boolean active;
 	
@@ -104,12 +105,25 @@ public class Admin
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	public URL getPictureURL() {
-		return pictureURL;
+	
+	/* PICTURE META FILE HELPER FUNCTIONS */
+	public MetaFile getPictureMetaFile() {
+		return pictureMetaFile;
+	}
+	
+	public void setPictureMetaFile(MetaFile pictureMetaFile) {
+		this.pictureMetaFile = pictureMetaFile;
 	}
 
-	public void setPictureURL(URL pictureURL) {
-		this.pictureURL = pictureURL;
+	public void addPictureMetaFile(MetaFile file) {
+		if(file!=null) {
+			this.pictureMetaFile = file;
+			file.setLinked(true);
+		}
+	}
+	
+	public void removePictureMetaFile() {
+		this.setPictureMetaFile(null);
+		this.getPictureMetaFile().setLinked(false);
 	}
 }

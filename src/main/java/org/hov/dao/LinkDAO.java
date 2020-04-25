@@ -2,11 +2,11 @@ package org.hov.dao;
 
 import java.util.UUID;
 
-import org.hov.model.Link;
+import org.hov.model.OTPLink;
 
 public interface LinkDAO {
-	public UUID createLink(Link link);
-	public boolean updateLink(Link link);
+	public UUID createLink(OTPLink link);
+	public boolean updateLink(OTPLink link);
 	public boolean removeLink(UUID linkId);
-	public Link getLinkById(UUID linkId);
+	public OTPLink getLinkById(UUID linkId);
 }

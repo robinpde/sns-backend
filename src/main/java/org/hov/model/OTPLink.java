@@ -18,7 +18,7 @@ import org.hov.enums.LinkType;
 
 @Entity
 @Table(name = "links")
-public class Link {
+public class OTPLink {
 	@Id
 	@GeneratedValue
 	@Type(type = "uuid-char")
@@ -35,8 +35,8 @@ public class Link {
 	@Column(name = "link_value")
 	private String linkValue;
 
-	@Column(name = "link_code")
-	private String verificationCode;
+	@Column(name = "otp", length = 10)
+	private String otp;
 
 	public UUID getLinkkey() {
 		return linkkey;
@@ -70,11 +70,11 @@ public class Link {
 		this.linkValue = linkValue;
 	}
 
-	public String getVerificationCode() {
-		return verificationCode;
+	public String getOtp() {
+		return otp;
 	}
 
-	public void setVerificationCode(String verificationCode) {
-		this.verificationCode = verificationCode;
+	public void setOtp(String otp) {
+		this.otp = otp;
 	}
 }

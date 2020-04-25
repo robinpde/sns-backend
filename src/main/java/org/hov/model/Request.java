@@ -1,14 +1,17 @@
 package org.hov.model;
 
-import java.net.URL;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
@@ -31,18 +34,19 @@ public class Request {
 	@Enumerated(EnumType.ORDINAL)
 	private RequestStatus requestStatus;
 	
-	//private User user;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "linked_vendor")
+	private Vendor linkedVendor;
 	
-	//private Admin admin;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "assigned_admin")
+	private Admin assignedAdmin;
 
 	@Column(name = "request_title")
 	private String requestTitle;
 
 	@Column(name = "request_text")
 	private String requestText;
-
-	@Column(name = "request_image_url")
-	private URL requestImage;
 	
 	public UUID getRequestid() {
 		return requestid;
@@ -84,11 +88,19 @@ public class Request {
 		this.requestText = requestText;
 	}
 
-	public URL getRequestImage() {
-		return requestImage;
+	public Vendor getLinkedVendor() {
+		return linkedVendor;
 	}
 
-	public void setRequestImage(URL requestImage) {
-		this.requestImage = requestImage;
+	public void setLinkedVendor(Vendor linkedVendor) {
+		this.linkedVendor = linkedVendor;
+	}
+
+	public Admin getAssignedAdmin() {
+		return assignedAdmin;
+	}
+
+	public void setAssignedAdmin(Admin assignedAdmin) {
+		this.assignedAdmin = assignedAdmin;
 	}
 }

@@ -1,11 +1,16 @@
 package org.hov.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
@@ -23,6 +28,9 @@ public class Category {
 
 	@Column(name = "category_desc", length = 510)
 	private String categoryDescription;
+	
+	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	private List<SubCategory> subCategoryList = new ArrayList<>();
 	
 	private boolean active;
 
@@ -57,4 +65,24 @@ public class Category {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
+
+	/* SUB-CATEGORY LIST HELPER FUNCTIONS */
+	public List<SubCategory> getSubCategoryList() {
+		return subCategoryList;
+	}
+	
+	public void addSubCategory(SubCategory subcateg) {
+		if(subcateg != null) {
+			subcateg.setCategory(this);
+			this.getSubCategoryList().add(subcateg);
+		}
+	}
+	
+	public void removeSubCategory(SubCategory subcateg) {
+		if(subcateg != null) {
+			subcateg.setCategory(null);
+			this.getSubCategoryList().remove(subcateg);
+		}
+	}
+	
 }

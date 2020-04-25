@@ -1,6 +1,7 @@
 package org.hov.model;
 
-import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -10,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
@@ -38,11 +41,21 @@ public class Item {
 	@Column(name = "items_on_stock")
 	private int itemsOnStock;
 	
-	@Column(name = "image_url")
-	private URL imageURL;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "brand")
+	private Brand brand;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "category")
+	private Category category;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "sub_category")
+	private SubCategory subCategory;
 	
-	@Column(name = "image_path")
-	private String imagePath;
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "images_list")
+	private List<MetaFile> imagesList = new ArrayList<>();
 	
 	public UUID getItemid() {
 		return itemid;
@@ -50,14 +63,6 @@ public class Item {
 
 	public void setItemid(UUID itemid) {
 		this.itemid = itemid;
-	}
-
-	public URL getImageURL() {
-		return imageURL;
-	}
-
-	public void setImageURL(URL imageURL) {
-		this.imageURL = imageURL;
 	}
 
 	public String getItemDescription() {
@@ -100,11 +105,51 @@ public class Item {
 		this.vendor = vendor;
 	}
 
-	public String getImagePath() {
-		return imagePath;
+	/* IMAGESLIST SETTER IS INTENTIONAL FOR SORTING FUNCTION */
+	public void setImagesList(List<MetaFile> imagesList) {
+		this.imagesList = imagesList;
 	}
 
-	public void setImagePath(String imagePath) {
-		this.imagePath = imagePath;
+	public Brand getBrand() {
+		return brand;
+	}
+
+	public void setBrand(Brand brand) {
+		this.brand = brand;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	public SubCategory getSubCategory() {
+		return subCategory;
+	}
+
+	public void setSubCategory(SubCategory subCategory) {
+		this.subCategory = subCategory;
+	}
+
+	/* IMAGESLIST HELPER FUNCTIONS */
+	public List<MetaFile> getImagesList() {
+		return imagesList;
+	}
+	
+	public void addMetaFile(MetaFile file) {
+		if(file != null) {
+			this.getImagesList().add(file);
+			file.setLinked(true);
+		}
+	}
+	
+	public void removeMetaFile(MetaFile file) {
+		if(file != null) {
+			this.getImagesList().remove(file);
+			file.setLinked(false);
+		}
 	}
 }

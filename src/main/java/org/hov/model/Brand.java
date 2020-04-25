@@ -7,6 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
@@ -25,11 +27,12 @@ public class Brand {
 	@Column(name = "brand_tag_line")
 	private String brandTagline;
 
-	@Column(name = "brand_desc", length = 510)
+	@Column(name = "brand_desc", length = 800)
 	private String brandDescription;
-
-	@Column(name = "logo_url")
-	private URL LogoURL;
+	
+	@OneToOne
+	@JoinColumn(name = "picture_meta_file")
+	private MetaFile pictureMetaFile;
 
 	private boolean active;
 
@@ -39,14 +42,6 @@ public class Brand {
 
 	public void setBrandid(UUID brandid) {
 		this.brandid = brandid;
-	}
-	
-	public URL getLogoURL() {
-		return LogoURL;
-	}
-
-	public void setLogoURL(URL logoURL) {
-		LogoURL = logoURL;
 	}
 
 	public String getBrandName() {
@@ -79,5 +74,26 @@ public class Brand {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	/* PICTURE META FILE HELPER FUNCTIONS */
+	public MetaFile getPictureMetaFile() {
+		return pictureMetaFile;
+	}
+	
+	public void setPictureMetaFile(MetaFile pictureMetaFile) {
+		this.pictureMetaFile = pictureMetaFile;
+	}
+
+	public void addPictureMetaFile(MetaFile file) {
+		if(file!=null) {
+			this.pictureMetaFile = file;
+			file.setLinked(true);
+		}
+	}
+	
+	public void removePictureMetaFile() {
+		this.setPictureMetaFile(null);
+		this.getPictureMetaFile().setLinked(false);
 	}
 }

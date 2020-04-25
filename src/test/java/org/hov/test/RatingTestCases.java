@@ -21,10 +21,10 @@ public class RatingTestCases {
 	RatingService ratingService;
 
 	@Test
-	@Ignore
+	//@Ignore
 	public void addRatingValid1() {
 		Rating r = new Rating();
-		r.setValue(3);
+		r.setRatingValue(5);
 		assertTrue(ratingService.addRating(r));
 	}
 	
@@ -32,7 +32,7 @@ public class RatingTestCases {
 	@Ignore
 	public void updateRatingValid1() {
 		Rating r = ratingService.getRatingById(UUID.fromString("125eefe2-c4c6-4672-82f0-95b7a431a4be"));
-		r.setValue(4);
+		r.setRatingValue(5);
 		assertTrue(ratingService.updateRating(r));
 	}
 

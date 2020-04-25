@@ -1,13 +1,18 @@
 package org.hov.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
@@ -15,8 +20,8 @@ import org.hov.enums.PaymentMode;
 import org.hov.enums.PaymentStatus;
 
 @Entity
-@Table(name="payments")
-public class Payment {
+@Table(name="payment_link")
+public class PaymentLink {
 	@Id
 	@GeneratedValue
 	@Type(type = "uuid-char")
@@ -32,8 +37,11 @@ public class Payment {
 	@Column(name = "payment_status")
 	@Enumerated(EnumType.ORDINAL)
 	private PaymentStatus paymentStatus;
+	
+	@OneToMany(mappedBy = "paymentLink", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Order> orderList = new ArrayList<>();
 
-	@Column(name = "payment_log")
+	@Column(name = "payment_log", length = 2056)
 	private String paymentLog;
 	
 	public UUID getPaymentid() {
@@ -72,7 +80,26 @@ public class Payment {
 		return paymentLog;
 	}
 
-	public void setPaymentLog(String paymentLog) {
-		this.paymentLog = paymentLog;
+	public void appendPaymentLog(String log) {
+		this.paymentLog += log + "|";
+	}
+
+	/* ORDER LIST HELPER FUNCTION */
+	public List<Order> getOrderList() {
+		return orderList;
+	}
+	
+	public void addOrder(Order order) {
+		if(order != null) {
+			order.setPaymentLink(this);
+			this.getOrderList().add(order);
+		}
+	}
+	
+	public void removeOrder(Order order) {
+		if(order != null) {
+			order.setPaymentLink(null);
+			this.getOrderList().remove(order);
+		}
 	}
 }

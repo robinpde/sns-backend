@@ -52,12 +52,17 @@ public class Vendor {
 	private User user;
 	
 	@Column(name = "items_list")
-	@OneToMany(cascade = CascadeType.ALL,
-			   fetch = FetchType.LAZY,
-			   mappedBy = "vendor",
-			   orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "vendor", orphanRemoval = true)
 	private List<Item> itemsList = new ArrayList<>();
 
+	@Column(name = "requests_list")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "vendor", orphanRemoval = true)
+	private List<Item> requestList = new ArrayList<>();
+	
+	@Column(name = "promotions_list")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "vendor", orphanRemoval = true)
+	private List<Item> promotionList = new ArrayList<>();
+	
 	private boolean blocked;
 
 	@Column(name = "blocked_reason")

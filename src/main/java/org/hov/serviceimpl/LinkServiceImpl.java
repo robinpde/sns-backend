@@ -3,7 +3,7 @@ package org.hov.serviceimpl;
 import java.util.UUID;
 
 import org.hov.dao.LinkDAO;
-import org.hov.model.Link;
+import org.hov.model.OTPLink;
 import org.hov.service.LinkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ public class LinkServiceImpl implements LinkService{
 	LinkDAO linkDAO;
 	
 	@Override
-	public boolean generateLink(Link link) {
+	public boolean generateLink(OTPLink link) {
 		UUID linkKey = null;
 		linkKey = linkDAO.createLink(link);
 		if(linkKey!=null) {
@@ -28,7 +28,7 @@ public class LinkServiceImpl implements LinkService{
 	
 	@Override
 	public boolean regenerateLink(UUID linkId) {
-		Link link = getLinkById(linkId);		//copy Old Link Data
+		OTPLink link = getLinkById(linkId);		//copy Old Link Data
 		link.setLinkkey(null);
 		if(linkDAO.createLink(link)!=null) {    //Save Same Link with different Id
 			return linkDAO.removeLink(linkId);	//Remove Old Link
@@ -37,7 +37,7 @@ public class LinkServiceImpl implements LinkService{
 	}
 	
 	@Override
-	public boolean updateLink(Link link) {
+	public boolean updateLink(OTPLink link) {
 		return linkDAO.updateLink(link);
 	}
 	
@@ -47,7 +47,7 @@ public class LinkServiceImpl implements LinkService{
 	}
 
 	@Override
-	public Link getLinkById(UUID linkId) {
+	public OTPLink getLinkById(UUID linkId) {
 		return linkDAO.getLinkById(linkId);
 	}
 }
