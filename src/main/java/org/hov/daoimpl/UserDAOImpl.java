@@ -74,7 +74,8 @@ public class UserDAOImpl implements UserDAO{
 	public User getUserByEmail(String email) {		
 		try {
 			Query query = sessionFactory.getCurrentSession().createQuery(
-						  "from org.hov.model.User where email = :email");
+						  "from org.hov.model.User where email = :email "+
+						  "and emailVerified = true");
 			query.setParameter("email", email);
 			return (User)query.getResultList().get(0);
 		}
@@ -88,7 +89,8 @@ public class UserDAOImpl implements UserDAO{
 	public User getUserByPhone(String phone) {
 		try {
 			Query query = sessionFactory.getCurrentSession().createQuery(
-						  "from org.hov.model.User where phone = :phone");
+						  "from org.hov.model.User where phone = :phone " +
+						  "and phoneVerified = true");
 			query.setParameter("phone", phone);
 			return (User)query.getResultList().get(0);
 		}

@@ -73,13 +73,12 @@ public class User {
 	@JoinColumn(name = "picture_meta_file")
 	private MetaFile pictureMetaFile;
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-	@JoinColumn(name = "linked_vendor")
-	private Vendor linkedVendor;
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	private Vendor vendor;
 
-	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name = "wish_item_list")
-	private List<Item> wishList = new ArrayList<>();
+	//@ManyToMany(fetch = FetchType.LAZY)
+	//@JoinColumn(name = "wish_item_list")
+	//private List<Item> wishList = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Address> addressList = new ArrayList<>();
@@ -212,12 +211,12 @@ public class User {
 		this.active = active;
 	}
 	
-	public Vendor getLinkedVendor() {
-		return linkedVendor;
+	public Vendor getVendor() {
+		return vendor;
 	}
 
-	public void setLinkedVendor(Vendor linkedVendor) {
-		this.linkedVendor = linkedVendor;
+	public void setLinkedVendor(Vendor vendor) {
+		this.vendor = vendor;
 	}
 
 	/* LINKS-LIST HELPER FUNCTIONS */
@@ -227,15 +226,15 @@ public class User {
 	
 	public void addLink(OTPLink link) {
 		if(link != null) {
-			link.setUser(this);
 			this.getLinksList().add(link);
+			link.setUser(this);
 		}
 	}
 	
 	public void removeLink(OTPLink link) {
 		if(link != null) {
-			link.setUser(null);
 			this.getLinksList().remove(link);
+			link.setUser(null);
 		}
 	}
 
@@ -246,15 +245,15 @@ public class User {
 	
 	public void addAddress(Address address) {
 		if(address != null) {
-			address.setUser(this);
 			this.getAddressList().add(address);
+			address.setUser(this);
 		}
 	}
 	
 	public void removeAddress(Address address) {
 		if(address != null) {
-			address.setUser(null);
 			this.getAddressList().remove(address);
+			address.setUser(null);
 		}
 	}
 	
@@ -265,32 +264,15 @@ public class User {
 
 	public void addOrder(Order order) {
 		if(order != null) {
-			order.setUser(this);
 			this.getOrderList().add(order);
+			order.setUser(this);
 		}
 	}
 	
 	public void removeOrder(Order order) {
 		if(order != null) {
-			order.setUser(null);
 			this.getOrderList().remove(order);
-		}
-	}
-
-	/* WISHLIST HELPER FUNCTIONS */
-	public List<Item> getWishList() {
-		return wishList;
-	}
-	
-	public void addWishItem(Item item) {
-		if(item != null) {
-			this.getWishList().add(item);
-		}
-	}
-	
-	public void removeWishItem(Item item) {
-		if(item != null) {
-			this.getWishList().remove(item);
+			order.setUser(null);
 		}
 	}
 
@@ -311,7 +293,24 @@ public class User {
 	}
 	
 	public void removePictureMetaFile() {
-		this.setPictureMetaFile(null);
 		this.getPictureMetaFile().setLinked(false);
+		this.setPictureMetaFile(null);
 	}
+
+	/* WISHLIST HELPER FUNCTIONS */
+//	public List<Item> getWishList() {
+//		return wishList;
+//	}
+	
+//	public void addWishItem(Item item) {
+//		if(item != null) {
+//			this.getWishList().add(item);
+//		}
+//	}
+	
+//	public void removeWishItem(Item item) {
+//		if(item != null) {
+//			this.getWishList().remove(item);
+//		}
+//	}
 }

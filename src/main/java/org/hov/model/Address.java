@@ -21,10 +21,6 @@ public class Address {
 	@Type(type = "uuid-char")
 	private UUID addressid;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "linked_user")
-	private User user;
-	
 	@Column(name = "address_name")
 	private String addressName;
 
@@ -60,6 +56,10 @@ public class Address {
 
 	@Column(name = "coordinates_y")
 	private long coordinatesY;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "linked_user")
+	private User user;
 	
 	public UUID getAddressid() {
 		return addressid;

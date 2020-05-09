@@ -35,13 +35,14 @@ public class Rating {
 
 	@Column(name="comment_text")
 	private String comment;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "rated_item")
 	private Item ratedItem;
 	
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "linked_user")
-	private User linkedUser;
+	private User user;
 	
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "images_list")
@@ -79,12 +80,12 @@ public class Rating {
 		this.ratedItem = ratedItem;
 	}
 
-	public User getLinkedUser() {
-		return linkedUser;
+	public User getUser() {
+		return user;
 	}
 
-	public void setLinkedUser(User linkedUser) {
-		this.linkedUser = linkedUser;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public int getRatingValue() {
@@ -95,7 +96,7 @@ public class Rating {
 		this.ratingValue = ratingValue;
 	}
 
-	/* IMAGESLIST HELPER FUNCTIONS */
+	/* IMAGES LIST HELPER FUNCTIONS */
 	public List<MetaFile> getImagesList() {
 		return imagesList;
 	}
@@ -107,7 +108,7 @@ public class Rating {
 		}
 	}
 	
-	public void remmoveMetaFile(MetaFile file) {
+	public void removeMetaFile(MetaFile file) {
 		if(file != null) {
 			this.getImagesList().remove(file);
 			file.setLinked(false);

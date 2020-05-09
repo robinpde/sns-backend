@@ -73,15 +73,15 @@ public class Category {
 	
 	public void addSubCategory(SubCategory subcateg) {
 		if(subcateg != null) {
-			subcateg.setCategory(this);
 			this.getSubCategoryList().add(subcateg);
+			subcateg.setCategory(this);
 		}
 	}
 	
 	public void removeSubCategory(SubCategory subcateg) {
 		if(subcateg != null) {
-			subcateg.setCategory(null);
 			this.getSubCategoryList().remove(subcateg);
+			subcateg.setCategory(null);
 		}
 	}
 	

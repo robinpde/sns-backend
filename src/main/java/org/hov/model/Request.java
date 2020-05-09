@@ -36,11 +36,11 @@ public class Request {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "linked_vendor")
-	private Vendor linkedVendor;
+	private Vendor vendor;
 	
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "assigned_admin")
-	private Admin assignedAdmin;
+	private Admin admin;
 
 	@Column(name = "request_title")
 	private String requestTitle;
@@ -88,19 +88,19 @@ public class Request {
 		this.requestText = requestText;
 	}
 
-	public Vendor getLinkedVendor() {
-		return linkedVendor;
+	public Vendor getVendor() {
+		return vendor;
 	}
 
-	public void setLinkedVendor(Vendor linkedVendor) {
-		this.linkedVendor = linkedVendor;
+	public void setVendor(Vendor vendor) {
+		this.vendor = vendor;
 	}
 
-	public Admin getAssignedAdmin() {
-		return assignedAdmin;
+	public Admin getAdmin() {
+		return admin;
 	}
 
-	public void setAssignedAdmin(Admin assignedAdmin) {
-		this.assignedAdmin = assignedAdmin;
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
 	}
 }

@@ -1,6 +1,5 @@
 package org.hov.model;
 
-import java.net.URL;
 import java.util.UUID;
 
 import javax.persistence.Column;

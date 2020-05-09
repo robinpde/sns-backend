@@ -21,10 +21,12 @@ public class AppConfig {
 	@Bean(name = "dataSource")
 	public DataSource getDataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+		//dataSource.setDriverClassName("com.mysql.jdbc.Driver");				// porting from mysql v5 to v8
+		//dataSource.setUrl("jdbc:mysql://localhost:3306/sns");					// porting from mysql v5 to v8
+		dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
 		dataSource.setUrl("jdbc:mysql://localhost:3306/sns");
-		dataSource.setUsername("root");
-		dataSource.setPassword("root");
+		dataSource.setUsername("exdev");
+		dataSource.setPassword("exdev");
 		return dataSource;
 	}
 	
@@ -32,7 +34,8 @@ public class AppConfig {
 		Properties properties = new Properties();
 	   	properties.put("hibernate.show_sql", "true");
 	   	properties.put("hibernate.hbm2ddl.auto", "update");
-	   	properties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+	   	//properties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect"); // porting from mysql v5 to v8
+	   	properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
 	   	return properties;
 	}
 	    
@@ -58,9 +61,8 @@ public class AppConfig {
        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
        mailSender.setHost("smtp.gmail.com");
        mailSender.setPort(587);
-        
-       mailSender.setUsername("exdev.robin@gmail.com");
-       mailSender.setPassword("ROD#KayTeaEm$55$");
+       mailSender.setUsername("pvt.robin@gmail.com");
+       mailSender.setPassword("dffdbdbg");
         
        Properties props = mailSender.getJavaMailProperties();
        props.put("mail.transport.protocol", "smtp");

@@ -27,13 +27,9 @@ public class Promotion {
 	@Type(type = "uuid-char")
 	private UUID promoid;
 	
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "linked_item")
-	private Item linkedItem;
-	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "linked_vendor")
-	private Vendor linkedVendor;
+	@JoinColumn(name = "linked_item")
+	private Item item;
 
 	@Column(name = "promotion_type")
 	@Enumerated(EnumType.ORDINAL)
@@ -42,10 +38,6 @@ public class Promotion {
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "picture_meta_file")
 	private MetaFile pictureMetaFile;
-	
-	//@OneToOne(fetch = FetchType.LAZY)
-	//@JoinColumn(name = "payment_link")
-	//private PaymentLink paymentLink;
 	
 	@Column(name = "start_date")
 	private Date startDate;
@@ -107,20 +99,12 @@ public class Promotion {
 		this.readCount = readCount;
 	}
 	
-	public Item getLinkedItem() {
-		return linkedItem;
+	public Item getItem() {
+		return item;
 	}
 
-	public void setLinkedItem(Item linkedItem) {
-		this.linkedItem = linkedItem;
-	}
-
-	public Vendor getLinkedVendor() {
-		return linkedVendor;
-	}
-
-	public void setLinkedVendor(Vendor linkedVendor) {
-		this.linkedVendor = linkedVendor;
+	public void setItem(Item item) {
+		this.item = item;
 	}
 
 	/* PICTURE META FILE HELPER FUNCTIONS */

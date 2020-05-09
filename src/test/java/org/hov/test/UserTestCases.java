@@ -27,6 +27,7 @@ public class UserTestCases {
 		User u = new User();
 		u.setFirstName("First Name1");
 		u.setLastName("Last Name1");
+		u.setPassword("pass@123");
 		assertTrue(userService.addUser(u));
 	}
 	

@@ -12,6 +12,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -48,25 +49,21 @@ public class Vendor {
 	@Column(name = "response_days")
 	private int responseDays;
 	
-	@OneToOne(mappedBy = "vendor")
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "linked_user")
 	private User user;
 	
 	@Column(name = "items_list")
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "vendor", orphanRemoval = true)
+	@OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Item> itemsList = new ArrayList<>();
 
-	@Column(name = "requests_list")
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "vendor", orphanRemoval = true)
-	private List<Item> requestList = new ArrayList<>();
+	@Column(name = "request_list")
+	@OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	private List<Request> requestList = new ArrayList<>();
 	
-	@Column(name = "promotions_list")
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "vendor", orphanRemoval = true)
-	private List<Item> promotionList = new ArrayList<>();
+	private boolean active;
 	
 	private boolean blocked;
-
-	@Column(name = "blocked_reason")
-	private String blockedReason;
 
 	public UUID getVendorid() {
 		return vendorid;
@@ -131,15 +128,7 @@ public class Vendor {
 	public void setBlocked(boolean blocked) {
 		this.blocked = blocked;
 	}
-
-	public String getBlockedReason() {
-		return blockedReason;
-	}
-
-	public void setBlockedReason(String blockedReason) {
-		this.blockedReason = blockedReason;
-	}
-
+	
 	public User getUser() {
 		return user;
 	}
@@ -147,21 +136,50 @@ public class Vendor {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
+	public boolean isActive() {
+		return active;
+	}
 
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	/* REQUEST LIST HELPER FUNCTIONS */
+	public List<Request> getRequestList() {
+		return requestList;
+	}
+	
+	public void addRequest(Request request) {
+		if(request != null) {
+			this.getRequestList().add(request);
+			request.setVendor(this);
+		}
+	}
+	
+	public void removeRequest(Request request) {
+		if(request != null) {
+			this.getRequestList().remove(request);
+			request.setVendor(null);
+		}
+	}
+	
+	/* ITEM LIST HELPER FUNCTIONS */
 	public List<Item> getItemsList() {
 		return itemsList;
 	}
-
+	
 	public void addItem(Item item) {
 		if(item != null) {
 			this.getItemsList().add(item);
+			item.setVendor(this);
 		}
 	}
 	
 	public void removeItem(Item item) {
 		if(item != null) {
-			item.setVendor(null);
 			this.getItemsList().remove(item);
+			item.setVendor(null);
 		}
 	}
 }

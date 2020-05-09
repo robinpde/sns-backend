@@ -19,8 +19,8 @@ public class SMSTestCases {
 	SMSService smsService;
 	
 	@Test
-	@Ignore
+	//@Ignore
 	public void sendSMSValid1(){
-		assertTrue(smsService.send("+9197903079222", "Testing SMS"));
+		assertTrue(smsService.send("9197903079222", "Testing SMS"));
 	}
 }

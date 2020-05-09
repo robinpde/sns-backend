@@ -1,9 +1,11 @@
 package org.hov.serviceimpl;
 
-import org.hov.config.EmailTemplate;
+import java.util.Date;
+
 import org.hov.enums.EmailType;
 import org.hov.enums.Locales;
 import org.hov.service.EmailService;
+import org.hov.template.EmailTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -35,39 +37,41 @@ public class EmailServiceImpl implements EmailService
     }
 
 	@Override
-	public String buildSubject(Locales loc, EmailType etyp, String orderText) {
+	public String buildSubject(Locales loc, 
+			   				   EmailType etyp, 
+			   				   String orderName, 
+			   				   Date scheduledDate) {
 		EmailTemplate et = new EmailTemplate();
 		String subject = et.getSubject(loc, etyp);
-		subject = subject.replace("$ZORDER_TEXTZ$", orderText.trim());
+		
+		subject = subject.replace("PARAM_ORDER_NAME", orderName.trim());
+		subject = subject.replace("PARAM_ORDER_DATE", scheduledDate.toString());
+		
 		return subject;
 	}
 	
 	@Override
-	public String buildBody(Locales loc, 		
-							EmailType etyp, 
-							String userName,	
-							String orderDesc, 
-							Double orderAmount,
-							String verificationCode, 
-							String httpLink) {
+	public String buildBody(Locales loc, 
+							EmailType etyp,
+							String userName, 
+							String orderName,
+							Double orderAmount, 
+							Date scheduledDate, 
+							String adminContact, 
+							String otpCode, 
+							String btnLink) {
 		EmailTemplate et = new EmailTemplate();
-		
-		/* COPY THE BELOW STRING DIRECTLY FROM EMAIL TEMPLATE CLASS */
-		String PARAM_LOGO_URL = "$ZLOGO_URL$";
-		String PARAM_USER_NAME = "$ZUSER_NAMEZ$";
-		String PARAM_ORDER_TEXT = "$ZORDER_TEXTZ$";
-		String PARAM_ORDER_AMOUNT = "$ZORDER_AMOUNTZ$";
-		String PARAM_VERIFICATION_CODE = "$ZVERIFICATION_CODEZ$";
-		String PARAM_HTTP_LINK = "$ZHTTP_LINKZ$";
 		
 		String body = et.getBody(loc, etyp);
 		
-		body = body.replace(PARAM_LOGO_URL, "");	//img link from CDN server
-		body = body.replace(PARAM_USER_NAME, userName.trim());
-		body = body.replace(PARAM_ORDER_TEXT, orderDesc.trim());
-		body = body.replace(PARAM_ORDER_AMOUNT, orderAmount.toString());
-		body = body.replace(PARAM_VERIFICATION_CODE, verificationCode.trim());
-		body = body.replace(PARAM_HTTP_LINK, httpLink.trim());
+		body = body.replace("PARAM_SITE_NAME", "siteName"); 	//site name
+		body = body.replace("PARAM_SITE_LOGO", "logoCDN");		//ogo CDN URL
+		body = body.replace("PARAM_USER_NAME", userName.trim());
+		body = body.replace("PARAM_ORDER_NAME", orderName.trim());
+		body = body.replace("PARAM_ORDER_AMOUNT", orderAmount.toString());
+		body = body.replace("PARAM_ORDER_DATE", scheduledDate.toString());
+		body = body.replace("PARAM_OTP_CODE", otpCode.trim());
+		body = body.replace("PARAM_BUTTON_LINK", btnLink.trim());
 		
 		return body;
 	}

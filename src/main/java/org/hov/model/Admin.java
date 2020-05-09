@@ -10,7 +10,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 
-import org.hibernate.validator.constraints.UniqueElements;
 import org.hov.enums.AdminType;
 
 @Entity
@@ -18,7 +17,7 @@ import org.hov.enums.AdminType;
 public class Admin
 {
 	@Id						
-	@UniqueElements(message = "SNSERR000004")									//Already Exists
+	//@UniqueElements(message = "SNSERR000004")									//Already Exists
 	private String adminid;														//Employee Id,Not auto generated
 	
 	@Column(unique = true)

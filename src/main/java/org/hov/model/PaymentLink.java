@@ -91,15 +91,15 @@ public class PaymentLink {
 	
 	public void addOrder(Order order) {
 		if(order != null) {
-			order.setPaymentLink(this);
 			this.getOrderList().add(order);
+			order.setPaymentLink(this);
 		}
 	}
 	
 	public void removeOrder(Order order) {
 		if(order != null) {
-			order.setPaymentLink(null);
 			this.getOrderList().remove(order);
+			order.setPaymentLink(null);
 		}
 	}
 }

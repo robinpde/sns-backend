@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -56,6 +57,10 @@ public class Item {
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "images_list")
 	private List<MetaFile> imagesList = new ArrayList<>();
+	
+	@Column(name = "promotions_list")
+	@OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	private List<Promotion> promotionList = new ArrayList<>();
 	
 	public UUID getItemid() {
 		return itemid;
@@ -134,7 +139,7 @@ public class Item {
 		this.subCategory = subCategory;
 	}
 
-	/* IMAGESLIST HELPER FUNCTIONS */
+	/* IMAGES LIST HELPER FUNCTIONS */
 	public List<MetaFile> getImagesList() {
 		return imagesList;
 	}

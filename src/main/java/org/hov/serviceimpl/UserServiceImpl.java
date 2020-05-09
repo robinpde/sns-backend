@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import org.hov.dao.UserDAO;
 import org.hov.model.User;
-import org.hov.service.EmailService;
 import org.hov.service.SMSService;
 import org.hov.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
