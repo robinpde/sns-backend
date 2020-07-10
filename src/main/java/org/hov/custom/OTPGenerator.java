@@ -2,7 +2,7 @@ package org.hov.custom;
 
 import java.util.Random;
 
-public class CodeGenerator 
+public class OTPGenerator 
 {
 	public String generate(int length)
 	{	

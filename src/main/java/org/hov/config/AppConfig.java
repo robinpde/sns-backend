@@ -21,8 +21,6 @@ public class AppConfig {
 	@Bean(name = "dataSource")
 	public DataSource getDataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		//dataSource.setDriverClassName("com.mysql.jdbc.Driver");				// porting from mysql v5 to v8
-		//dataSource.setUrl("jdbc:mysql://localhost:3306/sns");					// porting from mysql v5 to v8
 		dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
 		dataSource.setUrl("jdbc:mysql://localhost:3306/sns");
 		dataSource.setUsername("exdev");
@@ -34,7 +32,6 @@ public class AppConfig {
 		Properties properties = new Properties();
 	   	properties.put("hibernate.show_sql", "true");
 	   	properties.put("hibernate.hbm2ddl.auto", "update");
-	   	//properties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect"); // porting from mysql v5 to v8
 	   	properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
 	   	return properties;
 	}
@@ -59,16 +56,22 @@ public class AppConfig {
    @Bean
    public JavaMailSender getJavaMailSender() {
        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-       mailSender.setHost("smtp.gmail.com");
-       mailSender.setPort(587);
-       mailSender.setUsername("pvt.robin@gmail.com");
-       mailSender.setPassword("dffdbdbg");
+       mailSender.setHost("smtpout.secureserver.net");
+       mailSender.setPort(465);
+       mailSender.setUsername("enter_email_here");
+       mailSender.setPassword("enter_your_password_here");
         
        Properties props = mailSender.getJavaMailProperties();
        props.put("mail.transport.protocol", "smtp");
        props.put("mail.smtp.auth", "true");
-       props.put("mail.smtp.starttls.enable", "true");
        props.put("mail.debug", "true");
+       
+       /* Google Mail Specific settings*/
+      //props.put("mail.smtp.starttls.enable", "true");
+       
+       /* Go Daddy Mail specific settings */
+       props.put("mail.smtp.ssl.enable", "true");
+       props.put("mail.smtp.ssl.trust", "*");
         
        return mailSender;
    }

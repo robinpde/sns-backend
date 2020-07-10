@@ -22,12 +22,14 @@ public class UserTestCases {
 	UserService userService;
 	
 	@Test
-	@Ignore
+	//@Ignore
 	public void addUserValid1() {
 		User u = new User();
 		u.setFirstName("First Name1");
 		u.setLastName("Last Name1");
 		u.setPassword("pass@123");
+		u.setEmail("test3210@123.com");
+		u.setPhone("fdvf1");
 		assertTrue(userService.addUser(u));
 	}
 	

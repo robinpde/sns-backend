@@ -6,7 +6,7 @@ import org.hov.config.AppConfig;
 import org.hov.enums.Locales;
 import org.hov.enums.EmailType;
 import org.hov.service.EmailService;
-import org.hov.template.EmailTemplate;
+import org.hov.template.EmailText;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +23,7 @@ public class EmailTestCases {
 	@Test
 	@Ignore
 	public void emailValid1() {
-		EmailTemplate template = new EmailTemplate();
+		EmailText template = new EmailText();
 		System.out.println("**********************************************************************" + template.getSubject(Locales.HI,EmailType.USER_EMAIL_VERIFICATION));
 		System.out.println("**********************************************************************" + template.getBody(Locales.HI,EmailType.USER_EMAIL_VERIFICATION));
 		assertTrue(emailService.sendSimpleMail(
@@ -34,8 +34,8 @@ public class EmailTestCases {
 	}
 	
 	@Test
-	//@Ignore
-	public void emailValid2() {
+	@Ignore
+	public void initialEmailTest() {
 		assertTrue(emailService.sendSimpleMail(
 							"exdev.robin@outlook.com",
 							"testsubject", 

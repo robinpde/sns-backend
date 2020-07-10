@@ -27,11 +27,11 @@ public class AdminTestCases {
 	AdminDAO adminDAO;
 	
 	@Test
-	@Ignore
+	//@Ignore
 	public void addAdmin1() {
 		Admin admin = new Admin();
-		admin.setAdminid("333777");
-		admin.setEmail("mail4u@email.com");
+		admin.setAdminid("1234454");
+		admin.setEmail("robin12@gmail.com");
 		admin.setFirstName("Admin5 First Name");
 		admin.setLastName("Admin5 Last Name");
 		admin.setActive(true);

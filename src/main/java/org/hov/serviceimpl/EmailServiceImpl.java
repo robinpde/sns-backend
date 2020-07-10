@@ -5,7 +5,7 @@ import java.util.Date;
 import org.hov.enums.EmailType;
 import org.hov.enums.Locales;
 import org.hov.service.EmailService;
-import org.hov.template.EmailTemplate;
+import org.hov.template.EmailText;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class EmailServiceImpl implements EmailService
 {
 	@Autowired
-    public JavaMailSender emailSender;
+    public JavaMailSender mailSender;
 	
 	@Override
 	public boolean sendSimpleMail(String email, String subject, String text)
@@ -23,10 +23,11 @@ public class EmailServiceImpl implements EmailService
 		try
 		{
 	        SimpleMailMessage message = new SimpleMailMessage(); 
+	        message.setFrom("notifier@shopnscroll.com");
 	        message.setTo(email); 
 	        message.setSubject(subject); 
 	        message.setText(text);
-	        emailSender.send(message);
+	        mailSender.send(message);
 			return true;
 		}
 		catch(Exception e)
@@ -41,7 +42,7 @@ public class EmailServiceImpl implements EmailService
 			   				   EmailType etyp, 
 			   				   String orderName, 
 			   				   Date scheduledDate) {
-		EmailTemplate et = new EmailTemplate();
+		EmailText et = new EmailText();
 		String subject = et.getSubject(loc, etyp);
 		
 		subject = subject.replace("PARAM_ORDER_NAME", orderName.trim());
@@ -59,19 +60,19 @@ public class EmailServiceImpl implements EmailService
 							Date scheduledDate, 
 							String adminContact, 
 							String otpCode, 
-							String btnLink) {
-		EmailTemplate et = new EmailTemplate();
+							String urlLink) {
+		EmailText et = new EmailText();
 		
 		String body = et.getBody(loc, etyp);
 		
-		body = body.replace("PARAM_SITE_NAME", "siteName"); 	//site name
-		body = body.replace("PARAM_SITE_LOGO", "logoCDN");		//ogo CDN URL
+		body = body.replace("PARAM_SITE_NAME", "sample site name"); 	// site name
+		body = body.replace("PARAM_SITE_LOGO", "logoCDN");		// Logo CDN URL
 		body = body.replace("PARAM_USER_NAME", userName.trim());
 		body = body.replace("PARAM_ORDER_NAME", orderName.trim());
 		body = body.replace("PARAM_ORDER_AMOUNT", orderAmount.toString());
 		body = body.replace("PARAM_ORDER_DATE", scheduledDate.toString());
 		body = body.replace("PARAM_OTP_CODE", otpCode.trim());
-		body = body.replace("PARAM_BUTTON_LINK", btnLink.trim());
+		body = body.replace("PARAM_URL_LINK", urlLink.trim());
 		
 		return body;
 	}

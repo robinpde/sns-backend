@@ -21,6 +21,8 @@ public class SMSTestCases {
 	@Test
 	//@Ignore
 	public void sendSMSValid1(){
-		assertTrue(smsService.send("9197903079222", "Testing SMS"));
+		assertTrue(smsService.sendTwilioMessage("+91", 
+												"9967377479", 
+												"Testing Twilio SMS Service"));
 	}
 }

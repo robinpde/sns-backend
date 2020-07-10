@@ -30,26 +30,11 @@
 	    <version>5.4.10.Final</version>
 	</dependency>
 	
-	<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java 
-	<dependency>
-	    <groupId>mysql</groupId>
-	    <artifactId>mysql-connector-java</artifactId>
-	    <version>5.0.2</version>
-	</dependency>
-	-->
-	
 	<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 	<dependency>
 	    <groupId>mysql</groupId>
 	    <artifactId>mysql-connector-java</artifactId>
 	    <version>8.0.20</version>
-	</dependency>
-	
-	<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-email -->
-	<dependency>
-	    <groupId>org.apache.commons</groupId>
-	    <artifactId>commons-email</artifactId>
-	    <version>1.5</version>
 	</dependency>
 	
 	<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
@@ -73,14 +58,6 @@
 	    <version>5.2.2.RELEASE</version>
 	    <scope>test</scope>
 	</dependency>
-	
-	<!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator
-	<dependency>
-	    <groupId>org.hibernate.validator</groupId>
-	    <artifactId>hibernate-validator</artifactId>
-	    <version>6.1.2.Final</version>
-	</dependency>
-	 -->
 	 
 	<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-validator -->
 	<dependency>
@@ -90,31 +67,34 @@
 	</dependency>
 	
 	<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail -->
+	<!-- Spring Email Configuration -->
 	<dependency>
 	    <groupId>org.springframework.boot</groupId>
 	    <artifactId>spring-boot-starter-mail</artifactId>
 	    <version>2.2.5.RELEASE</version>
 	</dependency>
 	
-	<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
+	<!-- https://mvnrepository.com/artifact/com.twilio.sdk/twilio -->
 	<dependency>
-	    <groupId>org.springframework.security</groupId>
-	    <artifactId>spring-security-core</artifactId>
-	    <version>5.3.1.RELEASE</version>
+	    <groupId>com.twilio.sdk</groupId>
+	    <artifactId>twilio</artifactId>
+	    <version>7.52.0</version>
 	</dependency>
 	
-	<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
+	<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+	<!-- For WordUtils -->
 	<dependency>
-	    <groupId>org.springframework.security</groupId>
-	    <artifactId>spring-security-web</artifactId>
-	    <version>5.3.1.RELEASE</version>
-	</dependency>
+	    <groupId>org.apache.commons</groupId>
+	    <artifactId>commons-lang3</artifactId>
+	    <version>3.10</version>
+	</dependency>	
 	
-	<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-config -->
+	<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-text -->
+	<!-- For StringUtils -->
 	<dependency>
-	    <groupId>org.springframework.security</groupId>
-	    <artifactId>spring-security-config</artifactId>
-	    <version>5.3.1.RELEASE</version>
+	    <groupId>org.apache.commons</groupId>
+	    <artifactId>commons-text</artifactId>
+	    <version>1.8</version>
 	</dependency>
 	
   </dependencies>

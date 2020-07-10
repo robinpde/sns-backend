@@ -1,6 +1,7 @@
 package org.hov.test;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.UUID;
@@ -21,28 +22,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class LinkTestCases {
 	@Autowired
 	LinkService linkService;
-
-	@Test
-	@Ignore
-	public void addLinkValid1() {
-		OTPLink l = new OTPLink();
-		l.setLinkValue("LOREM IPSUM1");
-		l.setLinkType(LinkType.EMAIL_VERIFICATION);
-		assertTrue(linkService.generateLink(l));
-	}
-	
-	@Test
-	@Ignore
-	public void removeLinkValid1() {
-		assertTrue(linkService.removeLink(UUID.fromString("ebe96165-b7c9-492b-96b4-d3570e1c27a8")));
-		
-	}
-	
-	@Test
-	@Ignore
-	public void regenLinkValid1() {
-		assertTrue(linkService.regenerateLink(UUID.fromString("7a612644-30f2-4a1f-a236-bda391f2b5c0")));
-	}
 	
 	@Test
 	@Ignore

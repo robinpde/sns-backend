@@ -6,23 +6,50 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
 
-import org.hov.enums.EmailType;
 import org.hov.enums.Locales;
+import org.hov.enums.SMSType;
 import org.hov.service.SMSService;
-import org.hov.template.SMSTemplate;
+import org.hov.template.SMSText;
 import org.springframework.stereotype.Service;
+
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 
 @Service
 public class SMSServiceImpl implements SMSService{
-	public static final String API_KEY = "3KuLVPWB+Tg-ABtKGXz4cwY1D2nOMQz7LeWYBx7Exa";
-	public static final String AUTH = "9536543c8e785934b1b08f264c7ab510";
-	  
+	//TWILIO Specific Credentials
+	public static final String ACCOUNT_SID = "twilio";
+	public static final String AUTH_TOKEN = "twilio";
+	public static final String TWILIO_NUMBER = "twilio";
+	
+	//TextLocal Specific Credentials
+	public static final String API_KEY = "textlocal";
+	public static final String AUTH = "textlocal";
+	 
+
 	@Override
-	public boolean send(String numbers, String message) {
+	public boolean sendTwilioMessage(String code, String number, String message) {
+		try {
+			Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+			Message msg = Message.creator(new PhoneNumber("+" + code + number),
+										  new PhoneNumber("+" + TWILIO_NUMBER),
+											  message).create();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
+	
+	@Override
+	public boolean sendTextLocalMessage(String numbers, String message) {
 		HttpURLConnection conn = null;
 		try {
 			String data  = "apikey="   + API_KEY +
-					   	   "&numbers=" + "919790307922" +
+					   	   "&numbers=" + "8954798234359" +
 					   	   "&message=" + "testing text message" +
 						   "&sender="  + "TXTLCL";
 			
@@ -54,23 +81,25 @@ public class SMSServiceImpl implements SMSService{
 
 	@Override
 	public String buildMessage(Locales loc, 
-							   EmailType etyp, 
+							   SMSType styp, 
 							   String userName, 
 							   String orderName, 
 							   Double orderAmount,
 							   Date scheduledDate, 
 							   String adminContact, 
-							   String otpCode) {
-		SMSTemplate st = new SMSTemplate();
-		String message = st.getText(loc, etyp);
+							   String otpCode,
+							   String urlLink) {
+		SMSText st = new SMSText();
+		String message = st.getText(loc, styp);
 
-		message = message.replace("PARAM_SITE_NAME", "siteName");
+		message = message.replace("PARAM_SITE_NAME", "ShopNScroll");
 		message = message.replace("PARAM_USER_NAME", userName.trim());
 		message = message.replace("PARAM_ORDER_NAME", orderName.trim());
 		message = message.replace("PARAM_ORDER_AMOUNT", orderAmount.toString());
 		message = message.replace("PARAM_ORDER_DATE", scheduledDate.toString());
 		message = message.replace("PARAM_CONTACT_NO", adminContact.trim());
 		message = message.replace("PARAM_OTP_CODE", otpCode.trim());
+		message = message.replace("PARAM_URL_LINK", urlLink.trim());
 				
 		return message;
 	}

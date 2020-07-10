@@ -17,11 +17,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.hov.annotation.SNSContactFormat;
+import org.hov.annotation.SNSCountryCodeFormat;
+import org.hov.annotation.SNSEmailFormat;
+import org.hov.annotation.SNSPasswordFormat;
 import org.hov.enums.Gender;
 import org.hov.enums.Locales;
 import org.hov.enums.UserType;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "users")
@@ -31,24 +40,37 @@ public class User {
 	@Type(type = "uuid-char")
 	private UUID userid;
 	
-	@Column(unique = true)
+	@Column
+	@SNSEmailFormat
 	private String email;
 
 	@Column(name = "email_veriified")
+	@NotNull
 	private boolean emailVerified;
 
-	@Column(unique = true)
+	@Column
+	@NotEmpty(message = " is mandatory")
+	@SNSCountryCodeFormat
+	private String countryCode;
+	
+	@Column
+	@SNSContactFormat
 	private String phone;
 
 	@Column(name = "phone_veriified")
+	@NotNull
 	private boolean phoneVerified;
 
+	@NotEmpty
+	@SNSPasswordFormat
 	private String password;
 
 	@Column(name = "first_name")
+	@NotBlank(message = " cannot be blank")
 	private String firstName;
 
 	@Column(name = "last_name")
+	@NotBlank(message = " cannot be blank")
 	private String lastName;
 
 	@Column(name = "date_of_birth")
@@ -61,13 +83,22 @@ public class User {
 	private UserType userType;
 
 	@Column(name = "dark_mode")
+	@NotNull
 	private boolean darkMode;
 
-	@Column(name = "silent_mode")
-	private boolean silentMode;
+	@Column(name = "email_alert")
+	@NotNull
+	private boolean emailAlert;
 
+	@Column(name = "phone_alert")
+	@NotNull
+	private boolean phoneAlert;
+	
 	@Enumerated(EnumType.ORDINAL)
 	private Locales localization;
+	
+	@NotNull
+	private boolean active;
 	
 	@OneToOne
 	@JoinColumn(name = "picture_meta_file")
@@ -89,10 +120,16 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Order> orderList = new ArrayList<>();
 	
-	private boolean active;
-
 	public UUID getUserid() {
 		return userid;
+	}
+	
+	public String getCountryCode() {
+		return countryCode;
+	}
+
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
 	}
 
 	public void setUserid(UUID userid) {
@@ -187,12 +224,20 @@ public class User {
 		this.darkMode = darkMode;
 	}
 
-	public boolean isSilentMode() {
-		return silentMode;
+	public boolean hasEmailAlert() {
+		return emailAlert;
 	}
 
-	public void setSilentMode(boolean silentMode) {
-		this.silentMode = silentMode;
+	public void setEmailAlert(boolean emailAlert) {
+		this.emailAlert = emailAlert;
+	}
+
+	public boolean hasPhoneAlert() {
+		return phoneAlert;
+	}
+
+	public void setPhoneAlert(boolean phoneAlert) {
+		this.phoneAlert = phoneAlert;
 	}
 
 	public Locales getLocalization() {
@@ -220,6 +265,7 @@ public class User {
 	}
 
 	/* LINKS-LIST HELPER FUNCTIONS */
+	@JsonIgnore
 	public List<OTPLink> getLinksList() {
 		return otpLinkList;
 	}
@@ -239,6 +285,7 @@ public class User {
 	}
 
 	/* ADDRESS LIST HELPER FUNCTIONS */
+	@JsonIgnore
 	public List<Address> getAddressList() {
 		return addressList;
 	}
@@ -258,6 +305,7 @@ public class User {
 	}
 	
 	/* ORDERLIST HELPER FUNCTIONS */
+	@JsonIgnore
 	public List<Order> getOrderList() {
 		return orderList;
 	}
