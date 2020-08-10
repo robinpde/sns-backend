@@ -17,7 +17,7 @@ import org.hibernate.annotations.Type;
 import org.hov.enums.LinkType;
 
 @Entity
-@Table(name = "links")
+@Table(name = "otp_link")
 public class OTPLink {
 	@Id
 	@GeneratedValue

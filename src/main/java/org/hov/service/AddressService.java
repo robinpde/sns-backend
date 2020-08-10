@@ -8,8 +8,9 @@ import org.hov.model.Address;
 public interface AddressService {
 	public boolean addAddress(Address address);
 	public boolean updateAddress(Address address);
+	public boolean disableAddress(UUID addressId);
 	public Address getAddressById(UUID addressId);
+	public Address getDefaultAddress(UUID userId);
+	public boolean setDefaultAddress(UUID userId, UUID addressId);
 	public List<Address> getAddressListByUser(UUID userId);
-	public boolean makeAddressDefault(UUID userId, UUID addressId);
-	public boolean updateGeoLocation(UUID addressId, long locX,  long locY);
 }

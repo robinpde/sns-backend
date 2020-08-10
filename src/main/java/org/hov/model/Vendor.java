@@ -22,7 +22,7 @@ import org.hov.enums.ShiftHours;
 import org.hov.enums.VendorType;
 
 @Entity
-@Table(name = "vendors")
+@Table(name = "vendor")
 public class Vendor {
 	@Id
 	@GeneratedValue

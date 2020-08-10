@@ -14,7 +14,7 @@ import org.hibernate.annotations.Type;
 import org.hov.enums.FileExtension;
 
 @Entity
-@Table(name = "meta_files")
+@Table(name = "meta_file")
 public class MetaFile {
 	@Id
 	@GeneratedValue

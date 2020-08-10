@@ -7,6 +7,7 @@ import javax.persistence.Query;
 
 import org.hibernate.SessionFactory;
 import org.hov.dao.UserDAO;
+import org.hov.model.Address;
 import org.hov.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

@@ -22,6 +22,11 @@ public class AdminServiceImpl implements AdminService{
 	public boolean updateAdmin(Admin admin) {
 		return adminDAO.updateAdmin(admin);
 	}
+	
+	@Override
+	public boolean deleteAdmin(String adminId) {
+		return adminDAO.deleteAdmin(adminId);
+	}
 
 	@Override
 	public Admin getAdminById(String adminId) {

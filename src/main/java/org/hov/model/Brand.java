@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Type;
 
 @Entity
-@Table(name = "brands")
+@Table(name = "brand")
 public class Brand {
 	@Id
 	@GeneratedValue
@@ -23,15 +23,15 @@ public class Brand {
 	@Column(name = "brand_name")
 	private String brandName;
 
-	@Column(name = "brand_tag_line")
+	@Column(name = "brand_tagline")
 	private String brandTagline;
 
-	@Column(name = "brand_desc", length = 800)
+	@Column(name = "brand_description")
 	private String brandDescription;
 	
 	@OneToOne
-	@JoinColumn(name = "picture_meta_file")
-	private MetaFile pictureMetaFile;
+	@JoinColumn(name = "brand_logo")
+	private MetaFile brandLogo;
 
 	private boolean active;
 
@@ -75,24 +75,20 @@ public class Brand {
 		this.active = active;
 	}
 
-	/* PICTURE META FILE HELPER FUNCTIONS */
-	public MetaFile getPictureMetaFile() {
-		return pictureMetaFile;
+	/* BRAND META FILE HELPER FUNCTIONS */
+	public MetaFile getBrandLogo() {
+		return brandLogo;
 	}
 	
-	public void setPictureMetaFile(MetaFile pictureMetaFile) {
-		this.pictureMetaFile = pictureMetaFile;
-	}
-
-	public void addPictureMetaFile(MetaFile file) {
+	public void setBrandLogo(MetaFile file) {
 		if(file!=null) {
-			this.pictureMetaFile = file;
+			this.brandLogo = file;
 			file.setLinked(true);
 		}
 	}
 	
-	public void removePictureMetaFile() {
-		this.setPictureMetaFile(null);
-		this.getPictureMetaFile().setLinked(false);
-	}
+	public void removeBrandLogo() {
+		this.getBrandLogo().setLinked(false);
+		this.setBrandLogo(null);
+	}	
 }

@@ -41,13 +41,13 @@ public class Order {
 
 	@Column(name = "added_timestamp")
 	@CreationTimestamp
-	private Date addedTime;
+	private Date createdTimestamp;
 
 	@Column(name = "updated_timestamp")
 	@UpdateTimestamp
-	private Date updatedTime;
+	private Date updatedTimestamp;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "linked_user")
 	private User user;
 	
@@ -87,20 +87,20 @@ public class Order {
 		this.quantity = quantity;
 	}
 
-	public Date getAddedTime() {
-		return addedTime;
+	public Date getCreatedTimestamp() {
+		return createdTimestamp;
 	}
 
-	public void setAddedTime(Date addedTime) {
-		this.addedTime = addedTime;
+	public void setCreatedTimestamp(Date createdTimestamp) {
+		this.createdTimestamp = createdTimestamp;
 	}
 
-	public Date getUpdatedTime() {
-		return updatedTime;
+	public Date getUpdatedTimestamp() {
+		return updatedTimestamp;
 	}
 
-	public void setUpdatedTime(Date updatedTime) {
-		this.updatedTime = updatedTime;
+	public void setUpdatedTimestamp(Date updatedTimestamp) {
+		this.updatedTimestamp = updatedTimestamp;
 	}
 
 	public Item getOrderItem() {

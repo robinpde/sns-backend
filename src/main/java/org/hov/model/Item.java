@@ -19,7 +19,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Type;
 
 @Entity
-@Table(name = "items")
+@Table(name = "item")
 public class Item {
 	@Id
 	@GeneratedValue
@@ -39,8 +39,11 @@ public class Item {
 	@Column(name = "item_price")
 	private double itemPrice;
 
-	@Column(name = "items_on_stock")
-	private int itemsOnStock;
+	@Column(name = "vendor_stock")
+	private int vendorStock;
+	
+	@Column(name = "customer_stock")
+	private int customerStock;
 	
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "brand")
@@ -55,8 +58,8 @@ public class Item {
 	private SubCategory subCategory;
 	
 	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name = "images_list")
-	private List<MetaFile> imagesList = new ArrayList<>();
+	@JoinColumn(name = "image_list")
+	private List<MetaFile> imageList = new ArrayList<>();
 	
 	@Column(name = "promotions_list")
 	@OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
@@ -78,12 +81,12 @@ public class Item {
 		this.itemDescription = itemDescription;
 	}
 
-	public int getItemsOnStock() {
-		return itemsOnStock;
+	public int getVendorStock() {
+		return vendorStock;
 	}
 
-	public void setItemsOnStock(int itemsOnStock) {
-		this.itemsOnStock = itemsOnStock;
+	public void setVendorStock(int vendorStock) {
+		this.vendorStock = vendorStock;
 	}
 
 	public double getItemPrice() {
@@ -108,11 +111,6 @@ public class Item {
 
 	public void setVendor(Vendor vendor) {
 		this.vendor = vendor;
-	}
-
-	/* IMAGESLIST SETTER IS INTENTIONAL FOR SORTING FUNCTION */
-	public void setImagesList(List<MetaFile> imagesList) {
-		this.imagesList = imagesList;
 	}
 
 	public Brand getBrand() {
@@ -140,21 +138,27 @@ public class Item {
 	}
 
 	/* IMAGES LIST HELPER FUNCTIONS */
-	public List<MetaFile> getImagesList() {
-		return imagesList;
+	public List<MetaFile> getImageList() {
+		return imageList;
 	}
 	
 	public void addMetaFile(MetaFile file) {
 		if(file != null) {
-			this.getImagesList().add(file);
+			this.getImageList().add(file);
 			file.setLinked(true);
 		}
 	}
 	
 	public void removeMetaFile(MetaFile file) {
 		if(file != null) {
-			this.getImagesList().remove(file);
+			this.getImageList().remove(file);
 			file.setLinked(false);
 		}
+	}
+	
+	/* IMAGESLIST SETTER IS INTENTIONAL */
+	/* ITS FOR SAVING SHUFFLED/SORTED LIST */
+	public void setImageList(List<MetaFile> imagesList) {
+		this.imageList = imagesList;
 	}
 }

@@ -13,7 +13,7 @@ import org.hov.annotation.SNSEmailFormat;
 import org.hov.enums.AdminType;
 
 @Entity
-@Table(name = "administrators")
+@Table(name = "administrator")
 public class Admin
 {
 	@Id						

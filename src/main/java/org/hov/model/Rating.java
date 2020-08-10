@@ -19,7 +19,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Range;
 
 @Entity
-@Table(name = "ratings")
+@Table(name = "rating")
 public class Rating {
 	@Id
 	@GeneratedValue

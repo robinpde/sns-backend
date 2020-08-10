@@ -10,18 +10,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AddressServiceImpl implements AddressService{
+public class AddressServiceImpl implements AddressService {
 	@Autowired
 	AddressDAO addressDAO;
 	
 	@Override
 	public boolean addAddress(Address address) {
-		return addressDAO.addAddress(address);
+		return addressDAO.addAddress(transformAddress(address));
 	}
 
 	@Override
 	public boolean updateAddress(Address address) {
-		return addressDAO.updateAddress(address);
+		return addressDAO.updateAddress(transformAddress(address));
 	}
 
 	@Override
@@ -35,12 +35,19 @@ public class AddressServiceImpl implements AddressService{
 	}
 
 	@Override
-	public boolean makeAddressDefault(UUID userId, UUID addressId) {
+	public Address getDefaultAddress(UUID userId) {
+		return addressDAO.getUserDefaultAddress(userId);
+	}
+	
+	@Override
+	public boolean setDefaultAddress(UUID userId, UUID addressId) {
 		try {
 			Address defaultAddress = addressDAO.getUserDefaultAddress(userId);
 			Address currentAddress = addressDAO.getAddressById(addressId);
 
-			defaultAddress.setDefaultAddress(false);
+			if (defaultAddress!=null) {
+				defaultAddress.setDefaultAddress(false);
+			}
 			currentAddress.setDefaultAddress(true);
 			
 			if (addressDAO.updateAddress(defaultAddress)) {
@@ -57,17 +64,19 @@ public class AddressServiceImpl implements AddressService{
 	}
 
 	@Override
-	public boolean updateGeoLocation(UUID addressId, long coordX, long coordY) {
-		try {
-			Address address = addressDAO.getAddressById(addressId);
-			address.setCoordinatesX(coordX);
-			address.setCoordinatesY(coordY);
-			addressDAO.updateAddress(address);
-			return true;
+	public boolean disableAddress(UUID addressId) {
+		Address currentAddress = addressDAO.getAddressById(addressId);
+		if(currentAddress!=null) {
+			currentAddress.setRemoved(true);
+			return addressDAO.updateAddress(currentAddress);
 		}
-		catch(Exception e) {
-			e.printStackTrace();
-			return false;
-		}
+		return false;
+	}
+	
+	/** HELPER FUNCTIONS */
+	private Address transformAddress(Address addr) {
+		/* write transform code here */
+		
+		return addr;
 	}
 }

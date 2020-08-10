@@ -13,7 +13,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -33,7 +32,7 @@ import org.hov.enums.UserType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 public class User {
 	@Id
 	@GeneratedValue
@@ -99,23 +98,21 @@ public class User {
 	
 	@NotNull
 	private boolean active;
-	
-	@OneToOne
-	@JoinColumn(name = "picture_meta_file")
-	private MetaFile pictureMetaFile;
 
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private Vendor vendor;
-
-	//@ManyToMany(fetch = FetchType.LAZY)
-	//@JoinColumn(name = "wish_item_list")
-	//private List<Item> wishList = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Address> addressList = new ArrayList<>();
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<OTPLink> otpLinkList = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	private List<Wish> wishList = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	private List<Cart> cartList = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Order> orderList = new ArrayList<>();
@@ -264,6 +261,26 @@ public class User {
 		this.vendor = vendor;
 	}
 
+	/* ADDRESS LIST HELPER FUNCTIONS */
+	@JsonIgnore
+	public List<Address> getAddressList() {
+		return addressList;
+	}
+	
+	public void addAddress(Address address) {
+		if(address != null) {
+			this.getAddressList().add(address);
+			address.setUser(this);
+		}
+	}
+	
+	public void removeAddress(Address address) {
+		if(address != null) {
+			address.setUser(null);
+			this.getAddressList().remove(address);
+		}
+	}
+
 	/* LINKS-LIST HELPER FUNCTIONS */
 	@JsonIgnore
 	public List<OTPLink> getLinksList() {
@@ -283,24 +300,44 @@ public class User {
 			link.setUser(null);
 		}
 	}
-
-	/* ADDRESS LIST HELPER FUNCTIONS */
-	@JsonIgnore
-	public List<Address> getAddressList() {
-		return addressList;
-	}
 	
-	public void addAddress(Address address) {
-		if(address != null) {
-			this.getAddressList().add(address);
-			address.setUser(this);
+	/* WISHLIST HELPER FUNCTIONS */
+	@JsonIgnore
+	public List<Wish> getWishList() {
+		return wishList;
+	}
+
+	public void addToWish(Wish wish) {
+		if(wish != null) {
+			this.getWishList().add(wish);
+			wish.setUser(this);
 		}
 	}
 	
-	public void removeAddress(Address address) {
-		if(address != null) {
-			this.getAddressList().remove(address);
-			address.setUser(null);
+	public void removeFromWish(Wish wish) {
+		if(wish != null) {
+			this.getWishList().remove(wish);
+			wish.setUser(null);
+		}
+	}
+	
+	/* CARTLIST HELPER FUNCTIONS */
+	@JsonIgnore
+	public List<Cart> getCartList() {
+		return cartList;
+	}
+
+	public void addToCart(Cart cart) {
+		if(cart != null) {
+			this.getCartList().add(cart);
+			cart.setUser(this);
+		}
+	}
+	
+	public void removeFromCart(Cart cart) {
+		if(cart != null) {
+			this.getCartList().remove(cart);
+			cart.setUser(null);
 		}
 	}
 	
@@ -323,42 +360,4 @@ public class User {
 			order.setUser(null);
 		}
 	}
-
-	/* PICTURE META FILE HELPER FUNCTIONS */
-	public MetaFile getPictureMetaFile() {
-		return pictureMetaFile;
-	}
-	
-	public void setPictureMetaFile(MetaFile pictureMetaFile) {
-		this.pictureMetaFile = pictureMetaFile;
-	}
-
-	public void addPictureMetaFile(MetaFile file) {
-		if(file!=null) {
-			this.pictureMetaFile = file;
-			file.setLinked(true);
-		}
-	}
-	
-	public void removePictureMetaFile() {
-		this.getPictureMetaFile().setLinked(false);
-		this.setPictureMetaFile(null);
-	}
-
-	/* WISHLIST HELPER FUNCTIONS */
-//	public List<Item> getWishList() {
-//		return wishList;
-//	}
-	
-//	public void addWishItem(Item item) {
-//		if(item != null) {
-//			this.getWishList().add(item);
-//		}
-//	}
-	
-//	public void removeWishItem(Item item) {
-//		if(item != null) {
-//			this.getWishList().remove(item);
-//		}
-//	}
 }

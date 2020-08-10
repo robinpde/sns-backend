@@ -20,7 +20,7 @@ import org.hibernate.annotations.Type;
 import org.hov.enums.PromoType;
 
 @Entity
-@Table(name = "promotions")
+@Table(name = "promotion")
 public class Promotion {
 	@Id
 	@GeneratedValue

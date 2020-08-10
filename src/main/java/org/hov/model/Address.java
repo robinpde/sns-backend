@@ -47,19 +47,21 @@ public class Address {
 	@Column(name = "default_address")
 	private boolean defaultAddress;
 	
-	/* SELLER SPECIFIC COLUMNS */
-	@Column(name = "warehouse_name")
-	private String warehouseName;
-	
-	@Column(name = "coordinates_x")
-	private long coordinatesX;
+	@Column(name = "coordinate_x")
+	private long coordinateX;
 
-	@Column(name = "coordinates_y")
-	private long coordinatesY;
+	@Column(name = "coordinate_y")
+	private long coordinateY;
+	
+	private boolean removed;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "linked_user")
 	private User user;
+	
+	/* SELLER SPECIFIC COLUMN */
+	@Column(name = "warehouse_name")
+	private String warehouseName;	
 	
 	public UUID getAddressid() {
 		return addressid;
@@ -165,19 +167,24 @@ public class Address {
 		this.warehouseName = warehouseName;
 	}
 
-	public long getCoordinatesX() {
-		return coordinatesX;
+	public boolean isRemoved() {
+		return removed;
 	}
 
-	public void setCoordinatesX(long coordinatesX) {
-		this.coordinatesX = coordinatesX;
+	public void setRemoved(boolean removed) {
+		this.removed = removed;
 	}
 
-	public long getCoordinatesY() {
-		return coordinatesY;
+	public long getCoordinateX() {
+		return coordinateX;
+	}
+	
+	public long getCoordinateY() {
+		return coordinateY;
 	}
 
-	public void setCoordinatesY(long coordinatesY) {
-		this.coordinatesY = coordinatesY;
+	public void setCoordinates(long coordinateX, long coordinateY) {
+		this.coordinateX = coordinateX;
+		this.coordinateY = coordinateY;
 	}
 }

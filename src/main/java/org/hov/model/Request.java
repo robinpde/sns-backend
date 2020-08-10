@@ -19,7 +19,7 @@ import org.hov.enums.RequestStatus;
 import org.hov.enums.RequestType;
 
 @Entity
-@Table(name = "requests")
+@Table(name = "request")
 public class Request {
 	@Id
 	@GeneratedValue
