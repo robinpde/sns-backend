@@ -1,14 +1,18 @@
 package org.hov.model;
 
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
 import org.hov.annotation.SNSEmailFormat;
 import org.hov.enums.AdminType;
 
@@ -16,9 +20,10 @@ import org.hov.enums.AdminType;
 @Table(name = "administrator")
 public class Admin
 {
-	@Id						
-	//@UniqueElements(message = "SNSERR000004")									//Already Exists
-	private String adminid;														//Employee Id,Not auto generated
+	@Id
+	@GeneratedValue
+	@Type(type = "uuid-char")
+	private UUID adminid;
 	
 	@Column(unique = true)
 	@SNSEmailFormat
@@ -42,11 +47,12 @@ public class Admin
 	
 	private boolean active;
 	
-	public String getAdminid() {
+	
+	public UUID getAdminid() {
 		return adminid;
 	}
 
-	public void setAdminid(String adminid) {
+	public void setAdminid(UUID adminid) {
 		this.adminid = adminid;
 	}
 

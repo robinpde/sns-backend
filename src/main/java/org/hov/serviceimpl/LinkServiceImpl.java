@@ -7,7 +7,6 @@ import org.hov.custom.OTPGenerator;
 import org.hov.dao.LinkDAO;
 import org.hov.enums.EmailType;
 import org.hov.enums.LinkType;
-import org.hov.enums.Locales;
 import org.hov.enums.SMSType;
 import org.hov.model.OTPLink;
 import org.hov.model.User;
@@ -60,9 +59,11 @@ public class LinkServiceImpl implements LinkService{
 	
 	@Override
 	public boolean regenerateLinkById(UUID linkId) {
+		//Generate 6 digit OTP
 		OTPGenerator otpgen = new OTPGenerator();
 		String otp = otpgen.generate(6);
 		
+		//Replace old link
 		OTPLink oldLink = linkDAO.getLinkById(linkId);
 		OTPLink newLink = oldLink;
 		newLink.setLinkkey(null);
@@ -72,46 +73,53 @@ public class LinkServiceImpl implements LinkService{
 		user.removeLink(oldLink);
 		user.addLink(newLink);
 		
+		//Send Email/SMS notification
 		if(userService.updateUser(user)) {
 			switch(newLink.getLinkType()) {
 			case EMAIL_VERIFICATION:
-				if(user.isEmailVerified()) {
-					return sendEmail(user.getEmail(),
-									 user.getFirstName(),
-									 EmailType.USER_EMAIL_VERIFICATION,
-									 otp,
-									 newLink.getLinkkey());
-				}
-				break;
-				
 			case EMAIL_CHANGE:
 				if(user.isEmailVerified()) {
-					return sendEmail(user.getEmail(),
-									 user.getFirstName(),
-									 EmailType.USER_EMAIL_CHANGE,
-									 otp,
-									 newLink.getLinkkey());
+					return emailService.sendSimpleMail(EmailType.USER_EMAIL_VERIFICATION, 
+							   user.getEmail(), 
+							   user.getFirstName(), 
+							   "", 
+							   0.0, 
+							   new Date(), 
+							   "", 
+							   otp);
 				}
 				break;
 				
 			case PHONE_VERIFICATION:
 			case PHONE_CHANGE:
+				if(user.isPhoneVerified()) {
+					smsService.sendTwilioMessage(SMSType.USER_PASSWORD_CHANGE,
+												 user.getCountryCode(), 
+												 user.getPhone(), 
+												 user.getFirstName(), 
+												 "", 
+												 0.0,
+												 new Date(),
+												 "", 
+												 otp);
+				}
+				break;
+				case PASSWORD_CHANGE:
+					if(user.isPhoneVerified()) {
+						smsService.sendTwilioMessage(SMSType.USER_PASSWORD_CHANGE,
+													 user.getCountryCode(), 
+													 user.getPhone(), 
+													 user.getFirstName(), 
+													 "", 
+													 0.0,
+													 new Date(),
+													 "", 
+													 otp);
+					}
+					break;
 			case SUSPEND_ACCOUNT:
 			case RESUME_ACCOUNT:
 				break;
-			case PASSWORD_CHANGE:
-				if(user.isEmailVerified()) {
-					return sendEmail(user.getEmail(),
-									 user.getFirstName(),
-									 EmailType.USER_PASSWORD_CHANGE,
-									 otp,
-									 newLink.getLinkkey());
-				}
-				
-				if(user.isPhoneVerified()) {
-					//SMS logic
-
-				}
 			default:
 				break;
 			}
@@ -155,31 +163,5 @@ public class LinkServiceImpl implements LinkService{
 			return true;
 		}
 		return false;
-	}
-	
-	
-/**************************** HELPER FUNCTIONS ********************************/
-	private boolean sendEmail(  String email, 
-								String username, 
-							  	EmailType etyp, 
-						 		String otp, 
-						 		UUID uuid) {
-		String emailSubject = "";
-		String emailBody = "";
-		
-		emailSubject = emailService.buildSubject(Locales.EN, etyp, "", new Date());
-
-		emailBody = emailService.buildBody(Locales.EN, etyp, username, "", 0.0,  new Date(), "", otp, uuid.toString());
-		
-		if(emailService.sendSimpleMail(email, emailSubject, emailBody)) {
-			return true;
-		}
-		return false;
-	}
-	
-	private boolean sendSMS(String phone, String username, SMSType etyp, String otp, String uuid) {
-		String text = "";
-		//smsService.buildMessage(Locales.EN, etyp, username, "", "", new Date(), "", otp);
-		return true;
 	}
 }

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.hov.config.AppConfig;
 import org.hov.dao.AdminDAO;
@@ -30,7 +31,7 @@ public class AdminTestCases {
 	//@Ignore
 	public void addAdmin1() {
 		Admin admin = new Admin();
-		admin.setAdminid("1234454");
+		admin.setAdminid(UUID.fromString("12344654"));
 		admin.setEmail("robin12@gmail.com");
 		admin.setFirstName("Admin5 First Name");
 		admin.setLastName("Admin5 Last Name");
@@ -43,7 +44,7 @@ public class AdminTestCases {
 	@Test
 	@Ignore
 	public void updateAdmin() {
-		Admin admin = adminService.getAdminById("126677");
+		Admin admin = adminService.getAdminById(UUID.fromString("12344654"));
 		admin.setLastName("Big Smoke");
 		
 		assertTrue(adminService.updateAdmin(admin));
@@ -52,16 +53,16 @@ public class AdminTestCases {
 	@Test
 	@Ignore
 	public void deleteAdmin(){
-		assertTrue(adminDAO.deleteAdmin("126677"));
+		assertTrue(adminDAO.deleteAdmin(UUID.fromString("12344654")));
 	}
 	
 	@Test
 	@Ignore
 	public void getAdminbyId() {
-		Admin admin = adminService.getAdminById("333555");
+		Admin admin = adminService.getAdminById(UUID.fromString("12344654"));
 		System.out.println("Admin Name: "+ admin.getFirstName());
 		
-		assertNotNull(adminService.getAdminById("333555"));
+		assertNotNull(adminService.getAdminById(UUID.fromString("12344654")));
 	}
 	
 	@Test
@@ -77,6 +78,6 @@ public class AdminTestCases {
 	@Test
 	@Ignore
 	public void toggleSuspend() {
-		assertTrue(adminService.toggleSuspend("333555"));
+		assertTrue(adminService.toggleSuspend(UUID.fromString("12344654")));
 	}
 }

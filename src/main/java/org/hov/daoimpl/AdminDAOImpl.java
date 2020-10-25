@@ -1,6 +1,7 @@
 package org.hov.daoimpl;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.Query;
 
@@ -42,7 +43,7 @@ public class AdminDAOImpl implements AdminDAO{
 	}
 	
 	@Override
-	public boolean deleteAdmin(String adminId) {
+	public boolean deleteAdmin(UUID adminId) {
 		try {
 			Admin admin = new Admin();
 			admin.setAdminid(adminId);
@@ -56,11 +57,11 @@ public class AdminDAOImpl implements AdminDAO{
 	}
 	
 	@Override
-	public Admin getAdminbyId(String adminId) {
+	public Admin getAdminbyId(UUID adminId) {
 		try {
 			Query query= sessionFactory.getCurrentSession().createQuery(
 							"from org.hov.model.Admin where adminid = :id");
-			query.setParameter("id", adminId);
+			query.setParameter("id", adminId.toString());
 			return (Admin)query.getResultList().get(0);
 		}
 		catch(Exception e) {

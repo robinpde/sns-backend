@@ -3,6 +3,8 @@ package org.hov.serviceimpl;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.WordUtils;
 import org.hov.dao.AddressDAO;
 import org.hov.model.Address;
 import org.hov.service.AddressService;
@@ -73,10 +75,12 @@ public class AddressServiceImpl implements AddressService {
 		return false;
 	}
 	
-	/** HELPER FUNCTIONS */
+	/* Helper Function - Format Address Strings */
 	private Address transformAddress(Address addr) {
-		/* write transform code here */
-		
+		addr.setAddressName(WordUtils.capitalize(addr.getAddressName()));
+		addr.setCity(StringUtils.capitalize(addr.getCity()));
+		addr.setState(StringUtils.capitalize(addr.getState()));
+		addr.setCountry(StringUtils.capitalize(addr.getCountry()));
 		return addr;
 	}
 }

@@ -1,6 +1,7 @@
 package org.hov.serviceimpl;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.hov.dao.AdminDAO;
 import org.hov.model.Admin;
@@ -24,12 +25,12 @@ public class AdminServiceImpl implements AdminService{
 	}
 	
 	@Override
-	public boolean deleteAdmin(String adminId) {
+	public boolean deleteAdmin(UUID adminId) {
 		return adminDAO.deleteAdmin(adminId);
 	}
 
 	@Override
-	public Admin getAdminById(String adminId) {
+	public Admin getAdminById(UUID adminId) {
 		return adminDAO.getAdminbyId(adminId);
 	}
 
@@ -39,7 +40,7 @@ public class AdminServiceImpl implements AdminService{
 	}
 	
 	@Override
-	public boolean toggleSuspend(String adminId) {
+	public boolean toggleSuspend(UUID adminId) {
 		try {
 			Admin admin = adminDAO.getAdminbyId(adminId);
 			if(admin.isActive()) {

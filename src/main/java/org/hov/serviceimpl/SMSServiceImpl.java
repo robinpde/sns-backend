@@ -1,12 +1,14 @@
 package org.hov.serviceimpl;
 
+/** Note - TextLocal service is replaced with Twilio SMS Service
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+*/
+
 import java.util.Date;
 
-import org.hov.enums.Locales;
 import org.hov.enums.SMSType;
 import org.hov.service.SMSService;
 import org.hov.template.SMSText;
@@ -18,31 +20,52 @@ import com.twilio.type.PhoneNumber;
 
 @Service
 public class SMSServiceImpl implements SMSService{
-	//TWILIO Specific Credentials
-	public static final String ACCOUNT_SID = "twilio";
-	public static final String AUTH_TOKEN = "twilio";
-	public static final String TWILIO_NUMBER = "twilio";
 	
-	//TextLocal Specific Credentials
-	public static final String API_KEY = "textlocal";
-	public static final String AUTH = "textlocal";
-	 
+	//TWILIO Specific Variables
+	public static final String ACCOUNT_SID = "twilio_sid";
+	public static final String AUTH_TOKEN = "twilio_token";
+	public static final String TWILIO_NUMBER = "twilio_number";
 
 	@Override
-	public boolean sendTwilioMessage(String code, String number, String message) {
+	public boolean sendTwilioMessage(SMSType styp,
+									 String countryCode,
+									 String phoneNumber,
+									 String userName,
+									 String orderName,
+									 Double orderAmount,
+									 Date 	scheduledDate,
+									 String supportContact,
+									 String otpCode) {
 		try {
+			//Build Message
+			SMSText st = new SMSText();
+			String message = st.getText(styp);
+
+			message = message.replace("PARAM_USER_NAME", userName.trim());
+			message = message.replace("PARAM_ORDER_NAME", orderName.trim());
+			message = message.replace("PARAM_ORDER_AMOUNT", orderAmount.toString());
+			message = message.replace("PARAM_ORDER_DATE", scheduledDate.toString());
+			message = message.replace("PARAM_CONTACT_NO", supportContact.trim());
+			message = message.replace("PARAM_OTP_CODE", otpCode.trim());
+			
+			//Sent Message
 			Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
-			Message msg = Message.creator(new PhoneNumber("+" + code + number),
+			Message msg = Message.creator(new PhoneNumber("+" + countryCode + phoneNumber),
 										  new PhoneNumber("+" + TWILIO_NUMBER),
-											  message).create();
+										  message).create();
 		}
 		catch(Exception e) {
 			e.printStackTrace();
-			return false;
+			return false;	//Twilio HTTP request not submitted
 		}
-		return true;
+		return true;		//Twilio HTTP request submitted
 	}
+
 	
+	/** Note - TextLocal service is replaced with Twilio SMS Service
+	//TextLocal Specific Variables
+	public static final String API_KEY = "textlocal_api_key";
+	public static final String AUTH = "textlocal_auth";
 	
 	@Override
 	public boolean sendTextLocalMessage(String numbers, String message) {
@@ -78,29 +101,5 @@ public class SMSServiceImpl implements SMSService{
 			conn.disconnect();
 		}
 	}
-
-	@Override
-	public String buildMessage(Locales loc, 
-							   SMSType styp, 
-							   String userName, 
-							   String orderName, 
-							   Double orderAmount,
-							   Date scheduledDate, 
-							   String adminContact, 
-							   String otpCode,
-							   String urlLink) {
-		SMSText st = new SMSText();
-		String message = st.getText(loc, styp);
-
-		message = message.replace("PARAM_SITE_NAME", "ShopNScroll");
-		message = message.replace("PARAM_USER_NAME", userName.trim());
-		message = message.replace("PARAM_ORDER_NAME", orderName.trim());
-		message = message.replace("PARAM_ORDER_AMOUNT", orderAmount.toString());
-		message = message.replace("PARAM_ORDER_DATE", scheduledDate.toString());
-		message = message.replace("PARAM_CONTACT_NO", adminContact.trim());
-		message = message.replace("PARAM_OTP_CODE", otpCode.trim());
-		message = message.replace("PARAM_URL_LINK", urlLink.trim());
-				
-		return message;
-	}
+	*/
 }

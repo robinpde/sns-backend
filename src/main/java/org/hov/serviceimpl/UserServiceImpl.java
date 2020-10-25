@@ -222,5 +222,10 @@ public class UserServiceImpl implements UserService {
 			return false;
 		}
 	}
-
+	
+	/* Helper Function - Standardize User Data */
+	private User transformUser(User usr) {
+		
+		return usr;
+	}
 }
